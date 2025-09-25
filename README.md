@@ -82,28 +82,6 @@ Perfect for developers who want to create Webflow-compatible websites without le
 
 ## 🔧 Development
 
-### Building the Extension
-
-```bash
-npm install
-npm run compile
-npm run package
-```
-
-### Project Structure
-
-```
-├── src/                    # TypeScript source files
-│   ├── extension.ts        # Main extension entry point
-│   └── sidebarProvider.ts  # Sidebar webview provider
-├── media/                  # Extension assets
-│   ├── htflow-icon.png     # Extension icon
-│   └── htflow-icon.svg     # Source icon
-├── htflow-panel.html       # Main extension UI
-├── package.json           # Extension manifest
-└── tsconfig.json          # TypeScript configuration
-```
-
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
@@ -114,7 +92,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/htflow/htflow-extension/issues)
+- **Issues**: [GitHub Issues](https://github.com/mithualamin/htflow-extension/issues)
 - **Homepage**: [https://htflow.com](https://htflow.com)
 - **Repository**: [https://github.com/mithualamin/htflow-extension](https://github.com/mithualamin/htflow-extension)
 

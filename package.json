@@ -3,7 +3,7 @@
   "displayName": "Htflow Html to Webflow",
   "publisher": "mithualamin",
   "description": "Visual interface for HTFlow CLI commands - manage HTFlow projects with buttons instead of terminal commands. Supports all HTFlow CLI operations including init, validate, audit, build, dev, and MCP integration.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "icon": "media/htflow-icon.png",
   "repository": {
