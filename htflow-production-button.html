@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTFlow Production Button</title>
+    <style>
+      /* HTFlow Production Button Styles */
+      .htflow-start-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(
+          135deg,
+          rgb(220, 53, 69) 0%,
+          rgb(200, 35, 51) 50%,
+          rgb(167, 30, 42) 100%
+        );
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 16px;
+        font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: rgba(220, 53, 69, 0.4) 0px 8px 32px,
+          rgba(0, 0, 0, 0.2) 0px 4px 16px,
+          rgba(255, 255, 255, 0.1) 0px 1px 0px inset;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 999999;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 140px;
+        justify-content: center;
+        transform: translateY(0px) scale(1);
+      }
+
+      .htflow-start-button:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: rgba(220, 53, 69, 0.6) 0px 12px 40px,
+          rgba(0, 0, 0, 0.3) 0px 6px 20px,
+          rgba(255, 255, 255, 0.2) 0px 2px 0px inset;
+      }
+
+      .htflow-status-indicator {
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        border-radius: 50%;
+        animation: htflow-pulse 2s infinite;
+        box-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+      }
+
+      .htflow-button-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.2;
+      }
+
+      .htflow-button-label {
+        font-size: 10px;
+        opacity: 0.8;
+        margin-bottom: 1px;
+      }
+
+      .htflow-button-title {
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      @keyframes htflow-pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .htflow-start-button {
+          bottom: 15px;
+          right: 15px;
+          padding: 10px 16px;
+          min-width: 120px;
+          font-size: 10px;
+        }
+
+        .htflow-button-label {
+          font-size: 9px;
+        }
+
+        .htflow-button-title {
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HTFlow Production Button -->
+    <div
+      id="htflow-start-button"
+      class="htflow-start-button"
+      title="HTFlow Production Environment - JavaScript Disabled, Webflow Ready"
+    >
+      <div class="htflow-status-indicator"></div>
+      <div class="htflow-button-content">
+        <div class="htflow-button-label">HTFlow</div>
+        <div class="htflow-button-title">PRODUCTION</div>
+      </div>
+    </div>
+
+    <script>
+      // Add click functionality if needed
+      document
+        .getElementById("htflow-start-button")
+        .addEventListener("click", function () {
+          console.log("HTFlow Production button clicked");
+          // Add your click handler here
+        });
+    </script>
+  </body>
+</html>
