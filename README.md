@@ -116,7 +116,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 - **Issues**: [GitHub Issues](https://github.com/htflow/htflow-extension/issues)
 - **Homepage**: [https://htflow.com](https://htflow.com)
-- **Repository**: [https://github.com/htflow/htflow-extension](https://github.com/htflow/htflow-extension)
+- **Repository**: [https://github.com/mithualamin/htflow-extension](https://github.com/mithualamin/htflow-extension)
 
 ---
 
