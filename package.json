@@ -47,7 +47,6 @@
     "out/**/*",
     "media/**/*",
     "htflow-panel.html",
-    "htflow-browser-panel.html",
     "htflow-icon-theme.json",
     "language-configuration.json",
     "package.json",

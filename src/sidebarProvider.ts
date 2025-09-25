@@ -8,17 +8,15 @@ type RunningServer = {
   folder: string;
   startTime: Date;
   terminal: vscode.Terminal;
-  origin: "browser" | "sidebar";
+  origin: "sidebar";
 };
 
 export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
-  private _browserPanel?: vscode.WebviewPanel;
   private _fileWatcher?: vscode.FileSystemWatcher;
   private _runningServers: Map<string, RunningServer> = new Map();
   private _terminals: Map<string, vscode.Terminal> = new Map();
   private _currentPanel?: vscode.WebviewPanel;
-  private _browserLiveServerId?: string;
 
   constructor(private readonly _extensionUri: vscode.Uri) {
     this.setupFileWatcher();
@@ -71,10 +69,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
             );
             break;
 
-          case "openBrowserPanel":
-            this.openBrowserPanel();
-            break;
-
           case "htflow.init":
             await this.executeHTFlowCommandForPanel(
               "init",
@@ -122,16 +116,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
                 );
               }
             }
-            break;
-
-          case "startLiveServer":
-            await this.startHTFlowServer(
-              message.port || 3000,
-              "dev",
-              undefined,
-              "browser",
-              false
-            );
             break;
 
           case "toolAction":
@@ -279,10 +263,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
             if (message.url) {
               await vscode.env.openExternal(vscode.Uri.parse(message.url));
             }
-            break;
-
-          case "openIndexInBrowser":
-            await this.openIndexInBrowser();
             break;
 
           default:
@@ -325,10 +305,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
             );
             break;
 
-          case "openBrowserPanel":
-            this.openBrowserPanel();
-            break;
-
           case "htflow.init":
             await this.executeHTFlowCommandForPanel(
               "init",
@@ -376,16 +352,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
                 );
               }
             }
-            break;
-
-          case "startLiveServer":
-            await this.startHTFlowServer(
-              message.port || 3000,
-              "dev",
-              undefined,
-              "browser",
-              false
-            );
             break;
 
           case "toolAction":
@@ -535,10 +501,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
             }
             break;
 
-          case "openIndexInBrowser":
-            await this.openIndexInBrowser();
-            break;
-
           default:
             vscode.window.showInformationMessage(`HTFlow: ${message.command}`);
             break;
@@ -554,244 +516,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
           error instanceof Error ? error.message : String(error);
         vscode.window.showErrorMessage(`HTFlow Error: ${errorMessage}`);
         console.error("HTFlow: ===== END ERROR (panel) =====");
-      }
-    });
-  }
-
-  private async openBrowserPanel() {
-    // Close existing browser panel if it exists
-    if (this._browserPanel) {
-      this._browserPanel.dispose();
-    }
-
-    // Create a new webview panel for the browser
-    const panel = vscode.window.createWebviewPanel(
-      "htflowBrowser",
-      "HTFlow Live Preview Browser",
-      vscode.ViewColumn.Beside,
-      {
-        enableScripts: true,
-        localResourceRoots: [this._extensionUri],
-        retainContextWhenHidden: true,
-        enableCommandUris: true,
-        portMapping: [],
-      }
-    );
-
-    // Store the panel reference for file change notifications
-    this._browserPanel = panel;
-
-    // Handle panel disposal
-    panel.onDidDispose(() => {
-      this._browserPanel = undefined;
-      console.log("HTFlow: Browser panel disposed");
-    });
-
-    // Set the HTML content for the browser panel
-    panel.webview.html = this._getBrowserHtmlForWebview(panel.webview);
-
-    // Handle messages from the browser panel
-    panel.webview.onDidReceiveMessage(async (message) => {
-      try {
-        switch (message.command) {
-          case "browserReady":
-            console.log("HTFlow browser panel is ready");
-            if (this._browserLiveServerId) {
-              const runningServer = this._runningServers.get(
-                this._browserLiveServerId
-              );
-
-              if (runningServer) {
-                this.ensureBrowserPortMapping(runningServer.port);
-                panel.webview.postMessage({
-                  command: "liveServerStarted",
-                  port: runningServer.port,
-                  serverId: this._browserLiveServerId,
-                  mode: runningServer.mode,
-                });
-              } else {
-                this._browserLiveServerId = undefined;
-                panel.webview.postMessage({ command: "liveServerStopped" });
-              }
-            } else {
-              panel.webview.postMessage({ command: "liveServerStopped" });
-            }
-            break;
-
-          case "startLiveServer":
-            try {
-              const parsedPort = Number(message.port);
-              const requestedPort = Number.isFinite(parsedPort)
-                ? Math.max(1, Math.min(65535, Math.floor(parsedPort)))
-                : 3000;
-              const requestedMode =
-                typeof message.mode === "string" && message.mode.trim()
-                  ? message.mode.trim()
-                  : "dev";
-              const result = await this.startHTFlowServer(
-                requestedPort,
-                requestedMode,
-                message.folder,
-                "browser",
-                true // Browser panel always specifies port
-              );
-
-              if (result) {
-                const { serverId, server } = result;
-                panel.webview.postMessage({
-                  command: "liveServerStarted",
-                  port: server.port,
-                  serverId,
-                  mode: server.mode,
-                });
-              } else {
-                panel.webview.postMessage({
-                  command: "liveServerError",
-                  error: `Failed to start HTFlow server on port ${requestedPort}`,
-                });
-              }
-            } catch (err) {
-              const errorMessage =
-                err instanceof Error ? err.message : String(err);
-              panel.webview.postMessage({
-                command: "liveServerError",
-                error: errorMessage,
-              });
-            }
-            break;
-
-          case "stopLiveServer":
-            try {
-              const parsedPort = Number(message.port);
-              const resolvedPort = Number.isFinite(parsedPort)
-                ? Math.max(1, Math.min(65535, Math.floor(parsedPort)))
-                : undefined;
-              const candidateId: string | undefined =
-                (typeof message.serverId === "string" && message.serverId) ||
-                this._browserLiveServerId ||
-                (typeof resolvedPort === "number"
-                  ? this.findRunningServerByPort(resolvedPort)?.serverId
-                  : undefined);
-
-              if (!candidateId) {
-                panel.webview.postMessage({
-                  command: "liveServerError",
-                  error: "No active HTFlow live server to stop",
-                });
-                break;
-              }
-
-              const stopped = await this.stopServer(candidateId, resolvedPort);
-              if (!stopped) {
-                panel.webview.postMessage({
-                  command: "liveServerError",
-                  error: "Unable to stop the HTFlow live server",
-                });
-              }
-            } catch (err) {
-              const errorMessage =
-                err instanceof Error ? err.message : String(err);
-              panel.webview.postMessage({
-                command: "liveServerError",
-                error: errorMessage,
-              });
-            }
-            break;
-
-          case "openFileInBrowser":
-            if (message.path) {
-              const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-              if (workspaceFolder) {
-                const fullPath = path.join(
-                  workspaceFolder.uri.fsPath,
-                  message.path
-                );
-                // Convert to a webview-safe URI instead of using file://
-                const webviewUri = panel.webview.asWebviewUri(
-                  vscode.Uri.file(fullPath)
-                );
-                // Send URL back to browser panel
-                panel.webview.postMessage({
-                  command: "openUrl",
-                  url: webviewUri.toString(),
-                });
-              }
-            }
-            break;
-
-          case "openExternal":
-            if (message.url) {
-              await vscode.env.openExternal(vscode.Uri.parse(message.url));
-            }
-            break;
-
-          case "openIndexInBrowser":
-            await this.openIndexInBrowser();
-            break;
-
-          case "openDeveloperTools":
-            console.log("HTFlow: Opening Developer Tools...");
-            try {
-              // Try different VS Code dev tools commands
-              const commands = [
-                "workbench.action.toggleDevTools",
-                "workbench.debug.action.toggleRepl",
-                "workbench.action.webview.openDeveloperTools",
-                "workbench.action.toggleDevTools",
-              ];
-
-              let commandExecuted = false;
-              for (const cmd of commands) {
-                try {
-                  await vscode.commands.executeCommand(cmd);
-                  console.log(`HTFlow: Command ${cmd} executed successfully`);
-                  commandExecuted = true;
-                  break;
-                } catch (cmdError) {
-                  console.log(`HTFlow: Command ${cmd} failed:`, cmdError);
-                }
-              }
-
-              if (!commandExecuted) {
-                // Fallback: Show instructions
-                vscode.window.showInformationMessage(
-                  "Developer Tools: Press Cmd+Option+I (Mac) or Ctrl+Shift+I (Windows/Linux) to open VS Code Developer Tools",
-                  "Got it"
-                );
-              } else {
-                // Show success message
-                setTimeout(() => {
-                  vscode.window
-                    .showInformationMessage(
-                      "Developer Tools should be open now! If not visible, try Help > Toggle Developer Tools",
-                      "Open Help Menu"
-                    )
-                    .then((selection) => {
-                      if (selection === "Open Help Menu") {
-                        vscode.commands.executeCommand(
-                          "workbench.action.showCommands"
-                        );
-                      }
-                    });
-                }, 500);
-              }
-            } catch (error) {
-              console.error("HTFlow: Failed to open Developer Tools:", error);
-              vscode.window.showErrorMessage(
-                "Failed to open Developer Tools. Try Help > Toggle Developer Tools manually or press Cmd+Option+I (Mac) / Ctrl+Shift+I (Windows/Linux)."
-              );
-            }
-            break;
-
-          default:
-            console.log("Browser panel message:", message);
-            break;
-        }
-      } catch (error) {
-        console.error("Browser panel command error:", error);
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        vscode.window.showErrorMessage(`Browser Panel Error: ${errorMessage}`);
       }
     });
   }
@@ -938,17 +662,7 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
   }
 
   private notifyFileChanged(uri: vscode.Uri) {
-    // Notify the browser panel about file changes
-    if (this._browserPanel) {
-      this._browserPanel.webview.postMessage({
-        command: "fileChanged",
-        filePath: uri.fsPath,
-        fileName: path.basename(uri.fsPath),
-      });
-      console.log(`HTFlow: Sent fileChanged message for ${uri.fsPath}`);
-    }
-
-    // Also notify the main view if it exists
+    // Notify the main view if it exists
     if (this._view) {
       this._view.webview.postMessage({
         command: "fileChanged",
@@ -1341,35 +1055,11 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
     return undefined;
   }
 
-  private ensureBrowserPortMapping(port: number) {
-    if (!this._browserPanel) {
-      return;
-    }
-
-    const existingOptions = this._browserPanel.webview.options;
-    const currentMappings = existingOptions.portMapping ?? [];
-    const alreadyMapped = currentMappings.some(
-      (mapping) => mapping.extensionHostPort === port
-    );
-
-    if (alreadyMapped) {
-      return;
-    }
-
-    this._browserPanel.webview.options = {
-      ...existingOptions,
-      portMapping: [
-        ...currentMappings,
-        { webviewPort: port, extensionHostPort: port },
-      ],
-    };
-  }
-
   private async startHTFlowServer(
     port: number = 3000,
     mode: string = "dev",
     folder?: string,
-    origin: "browser" | "sidebar" = "sidebar",
+    origin: "sidebar" = "sidebar",
     hasUserSpecifiedPort: boolean = false
   ): Promise<{ serverId: string; server: RunningServer } | undefined> {
     // Use proper defaults based on mode
@@ -1380,24 +1070,14 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
 
     try {
       const existing = this.findRunningServerByPort(normalizedPort, mode);
-      const isBrowserOrigin = origin === "browser";
 
       if (existing) {
         const { serverId, server } = existing;
         server.terminal.show();
 
-        if (isBrowserOrigin) {
-          this._browserLiveServerId = serverId;
-          this.ensureBrowserPortMapping(server.port);
-          vscode.window.setStatusBarMessage(
-            `HTFlow server already running on port ${server.port}`,
-            4000
-          );
-        } else {
-          vscode.window.showInformationMessage(
-            `HTFlow ${server.mode} server already running on port ${server.port}`
-          );
-        }
+        vscode.window.showInformationMessage(
+          `HTFlow ${server.mode} server already running on port ${server.port}`
+        );
 
         return existing;
       }
@@ -1430,9 +1110,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
       };
 
       this._runningServers.set(serverId, serverInfo);
-      if (isBrowserOrigin) {
-        this._browserLiveServerId = serverId;
-      }
 
       terminal.show();
       const folderArg = folderValue ? ` ${folderValue}` : "";
@@ -1457,11 +1134,7 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
       const folderText = folderValue ? ` from folder '${folderValue}'` : "";
       const statusMessage = `HTFlow ${mode} server starting on port ${normalizedPort}${folderText}...`;
 
-      if (isBrowserOrigin) {
-        vscode.window.setStatusBarMessage(statusMessage, 4000);
-      } else {
-        vscode.window.showInformationMessage(statusMessage);
-      }
+      vscode.window.showInformationMessage(statusMessage);
 
       const payload = {
         port: serverInfo.port,
@@ -1483,24 +1156,12 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
         });
       }
 
-      if (this._browserPanel) {
-        this._browserPanel.webview.postMessage({
-          command: "serverStarted",
-          serverId,
-          serverInfo: payload,
-        });
-      }
-
-      if (!isBrowserOrigin) {
-        setTimeout(() => {
-          vscode.commands.executeCommand(
-            "vscode.open",
-            vscode.Uri.parse(`http://localhost:${normalizedPort}`)
-          );
-        }, 3000);
-      } else {
-        this.ensureBrowserPortMapping(normalizedPort);
-      }
+      setTimeout(() => {
+        vscode.commands.executeCommand(
+          "vscode.open",
+          vscode.Uri.parse(`http://localhost:${normalizedPort}`)
+        );
+      }, 3000);
 
       console.log(`HTFlow: Server started with ID ${serverId}`);
       return { serverId, server: serverInfo };
@@ -1646,97 +1307,10 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
     }
   }
 
-  public _getBrowserHtmlForWebview(webview: vscode.Webview) {
-    const nonce = getNonce();
-
-    // Read the browser HTML file
-    const htmlPath = path.join(
-      this._extensionUri.fsPath,
-      "htflow-browser-panel.html"
-    );
-
-    try {
-      let htmlContent = fs.readFileSync(htmlPath, "utf8");
-
-      // Update Content Security Policy for VS Code
-      // - Allow ${webview.cspSource} for frame-src so we can iframe webview URIs
-      // - Allow https: in style-src so @import for Google Fonts doesn't get blocked
-      htmlContent = htmlContent.replace(
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-        `<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline' https:; script-src ${webview.cspSource} 'nonce-${nonce}' 'unsafe-inline'; font-src https:; connect-src https: http: ws:; img-src ${webview.cspSource} https: data:; frame-src ${webview.cspSource} https: http: data:;">`
-      );
-
-      // Add nonce to script tags
-      htmlContent = htmlContent.replace(
-        "<script>",
-        `<script nonce="${nonce}">`
-      );
-
-      return htmlContent;
-    } catch (error) {
-      console.error("Failed to read htflow-browser-panel.html:", error);
-      // Fallback to basic HTML
-      return `<!DOCTYPE html>
-              <html lang="en">
-              <head>
-                  <meta charset="UTF-8">
-                  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'unsafe-inline';">
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>HTFlow Browser</title>
-              </head>
-              <body>
-                  <div style="padding: 20px; color: white; background: #0c0c0c;">
-                      <h1>HTFlow Browser Panel</h1>
-                      <p>Failed to load browser panel. Please check htflow-browser-panel.html exists.</p>
-                </div>
-            </body>
-            </html>`;
-    }
-  }
-
-  private async openIndexInBrowser() {
-    try {
-      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-      if (workspaceFolder) {
-        const indexPath = path.join(workspaceFolder.uri.fsPath, "index.html");
-        if (fs.existsSync(indexPath)) {
-          // Send message to browser panel if open
-          if (this._browserPanel) {
-            const asWebviewUri = this._browserPanel.webview.asWebviewUri(
-              vscode.Uri.file(indexPath)
-            );
-            this._browserPanel.webview.postMessage({
-              command: "openUrl",
-              url: asWebviewUri.toString(),
-            });
-          }
-          // Also open in VS Code
-          await vscode.commands.executeCommand(
-            "vscode.open",
-            vscode.Uri.file(indexPath)
-          );
-        } else {
-          vscode.window.showWarningMessage(
-            "index.html not found in workspace root"
-          );
-        }
-      }
-    } catch (error) {
-      console.error("Open index error:", error);
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      vscode.window.showErrorMessage(
-        `Failed to open index.html: ${errorMessage}`
-      );
-    }
-  }
-
   private async stopServer(serverId: string, port?: number): Promise<boolean> {
     try {
       const serverInfo = this._runningServers.get(serverId);
       const resolvedPort = port ?? serverInfo?.port;
-      const isBrowserOrigin = serverInfo?.origin === "browser";
 
       if (!serverInfo && !this._terminals.has(serverId)) {
         console.warn(`HTFlow: No running server found for ID ${serverId}`);
@@ -1774,32 +1348,11 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
         });
       }
 
-      if (this._browserPanel) {
-        this._browserPanel.webview.postMessage({
-          command: "serverStopped",
-          serverId,
-          port: resolvedPort,
-        });
-      }
-
-      if (this._browserLiveServerId === serverId) {
-        this._browserLiveServerId = undefined;
-        if (this._browserPanel) {
-          this._browserPanel.webview.postMessage({
-            command: "liveServerStopped",
-          });
-        }
-      }
-
       const successMessage = resolvedPort
         ? `HTFlow server on port ${resolvedPort} stopped successfully`
         : `HTFlow server stopped successfully`;
 
-      if (isBrowserOrigin) {
-        vscode.window.setStatusBarMessage(successMessage, 3000);
-      } else {
-        vscode.window.showInformationMessage(successMessage);
-      }
+      vscode.window.showInformationMessage(successMessage);
 
       console.log(`HTFlow: Server ${serverId} stopped successfully`);
       return true;
@@ -1820,12 +1373,6 @@ export class HTFlowSidebarProvider implements vscode.WebviewViewProvider {
       this._fileWatcher.dispose();
       this._fileWatcher = undefined;
       console.log("HTFlow: File watcher disposed");
-    }
-
-    // Clean up browser panel
-    if (this._browserPanel) {
-      this._browserPanel.dispose();
-      this._browserPanel = undefined;
     }
 
     // Clean up all running terminals
