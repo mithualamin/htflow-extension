@@ -1,0 +1,4585 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTFlow Panel</title>
+    <style>
+
+      :root {
+        /* Base / Fonts etc */
+        --vscode-font-weight;
+        --vscode-font-size;
+        --vscode-editor-font-family;
+        --vscode-editor-font-weight;
+        --vscode-editor-font-size;
+
+        /* Foreground / Error / Descriptions */
+        --vscode-foreground;
+        --vscode-errorForeground;
+        --vscode-descriptionForeground;
+        --vscode-disabledForeground;
+
+        /* Icons, focus, separators, link, preformatted text etc */
+        --vscode-icon-foreground;
+        --vscode-focusBorder;
+        --vscode-textSeparator-foreground;
+        --vscode-textLink-foreground;
+        --vscode-textLink-activeForeground;
+        --vscode-textPreformat-foreground;
+        --vscode-textBlockQuote-background;
+        --vscode-textBlockQuote-border;
+        --vscode-textCodeBlock-background;
+
+        /* Widgets, inputs etc */
+        --vscode-widget-shadow;
+        --vscode-input-background;
+        --vscode-input-foreground;
+        --vscode-input-border;
+        --vscode-inputPlaceholderForeground;
+        --vscode-inputOption-activeBorder;
+        --vscode-inputOption-hoverBackground;
+        --vscode-inputOption-activeBackground;
+        --vscode-inputOption-activeForeground;
+
+        /* Validation / error/warning/info */
+        --vscode-inputValidation-infoBackground;
+        --vscode-inputValidation-infoBorder;
+        --vscode-inputValidation-warningBackground;
+        --vscode-inputValidation-warningBorder;
+        --vscode-inputValidation-errorBackground;
+        --vscode-inputValidation-errorBorder;
+
+        /* Dropdowns, checkboxes etc */
+        --vscode-dropdown-background;
+        --vscode-dropdown-foreground;
+        --vscode-dropdown-border;
+        --vscode-checkbox-background;
+        --vscode-checkbox-foreground;
+        --vscode-checkbox-border;
+
+        /* Buttons */
+        --vscode-button-foreground;
+        --vscode-button-background;
+        --vscode-button-hoverBackground;
+        --vscode-button-secondaryForeground;
+        --vscode-button-secondaryBackground;
+        --vscode-button-secondaryHoverBackground;
+
+        /* Badges, progress bars etc */
+        --vscode-badge-background;
+        --vscode-badge-foreground;
+        --vscode-progressBar-background;
+
+        /* Scrollbars */
+        --vscode-scrollbar-shadow;
+        --vscode-scrollbarSlider-background;
+        --vscode-scrollbarSlider-hoverBackground;
+        --vscode-scrollbarSlider-activeBackground;
+
+        /* Editor errors/warnings/hints etc */
+        --vscode-editorError-foreground;
+        --vscode-editorWarning-foreground;
+        --vscode-editorInfo-foreground;
+        --vscode-editorHint-foreground;
+
+        /* Syntax, diff, find match, hover etc */
+        --vscode-editor-background;
+        --vscode-editor-foreground;
+        --vscode-editorWidget-background;
+        --vscode-editorWidget-foreground;
+        --vscode-editorWidget-border;
+
+        --vscode-editor-selectionBackground;
+        --vscode-editor-selectionForeground;
+        --vscode-editor-inactiveSelectionBackground;
+
+        --vscode-editor-findMatchBackground;
+        --vscode-editor-findMatchHighlightBackground;
+        --vscode-editor-findRangeHighlightBackground;
+        --vscode-editor-findMatchBorder;
+
+        --vscode-editor-hoverHighlightBackground;
+        --vscode-editorHoverWidget-background;
+        --vscode-editorHoverWidget-foreground;
+        --vscode-editorHoverWidget-border;
+
+        --vscode-editorLink-activeForeground;
+
+        /* Lists / Trees / Menus etc */
+        --vscode-list-focusOutline;
+        --vscode-list-activeSelectionBackground;
+        --vscode-list-activeSelectionForeground;
+        --vscode-list-hoverBackground;
+        --vscode-list-highlightForeground;
+        --vscode-list-errorForeground;
+        --vscode-list-warningForeground;
+        --vscode-listFilterWidget-background;
+
+        --vscode-menu-foreground;
+        --vscode-menu-background;
+        --vscode-menu-border;
+        --vscode-menu-selectionForeground;
+        --vscode-menu-selectionBackground;
+        --vscode-menu-separatorBackground;
+
+        /* Toolbar / Breadcrumb / Other UI controls */
+        --vscode-toolbar-hoverBackground;
+        --vscode-toolbar-activeBackground;
+
+        --vscode-breadcrumb-foreground;
+        --vscode-breadcrumb-background;
+        --vscode-breadcrumb-focusForeground;
+        --vscode-breadcrumb-activeSelectionForeground;
+        --vscode-breadcrumbPicker-background;
+
+        /* Window border (when custom titlebar enabled) */
+        --vscode-window-activeBorder;
+        --vscode-window-inactiveBorder;
+
+        /* Charts or color palettes */
+        --vscode-charts-red;
+        --vscode-charts-blue;
+        --vscode-charts-yellow;
+        --vscode-charts-green;
+        --vscode-charts-purple;
+        --vscode-charts-orange;
+
+        /* Editor line highlight, symbol highlight etc */
+        --vscode-editor-lineHighlightBackground;
+        --vscode-editor-lineHighlightBorder;
+        --vscode-editorRangeHighlightBackground;
+        --vscode-editor-symbolHighlightBackground;
+        --vscode-editorOverviewRuler-bracketMatchForeground;
+
+        /* Folding, linked editing etc */
+        --vscode-editor-foldBackground;
+        --vscode-editorGutter-foldingControlForeground;
+        --vscode-editor-linkedEditingBackground;
+
+        /* Peek / Hover Title etc */
+        --vscode-peekViewTitle-background;
+        --vscode-peekViewTitleLabel-foreground;
+        --vscode-peekViewTitleDescription-foreground;
+
+        /* Custom mappings for convenience */
+        --radius-sm: 3px;
+        --radius-md: 4px;
+        --radius-lg: 6px;
+        --transition: all 0.15s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, "system-ui", sans-serif;
+        font-size: var(--vscode-font-size, 13px);
+        line-height: 1.5;
+        color: var(--vscode-foreground);
+        background: var(--vscode-editor-background);
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .ht_container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      /* Header */
+      .ht_header {
+        background: var(--vscode-editorWidget-background);
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+        padding: 16px 20px;
+      }
+
+      .ht_header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .ht_header-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--vscode-button-foreground);
+        background-image: url('data:image/svg+xml;charset=utf-8,<svg width="24" height="24" viewBox="0 0 222 222" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M101.259 119.281L45.0961 0L151.471 125.669L0 222L101.259 119.281Z" fill="%23fff"></path><path d="M42.619 119.051C38.1677 113.493 39.2767 105.54 45.0961 101.288L120.962 45.8576C126.782 41.6058 135.108 42.6651 139.559 48.2237L197.59 120.689C202.042 126.248 200.933 134.201 195.113 138.453L119.247 193.883C113.428 198.135 105.102 197.076 100.65 191.517L42.619 119.051Z" fill="%23ffdd00"></path><path d="M167.619 118.712C167.619 129.21 158.71 137.72 147.72 137.72C136.73 137.72 127.821 129.21 127.821 118.712C127.821 108.215 136.73 99.7052 147.72 99.7052C158.71 99.7052 167.619 108.215 167.619 118.712Z" fill="%23000"></path><path d="M109.248 118.712C109.248 129.21 100.339 137.72 89.3492 137.72C78.3592 137.720 69.45 129.21 69.45 118.712C69.45 108.215 78.3592 99.7052 89.3492 99.7052C100.339 99.7052 109.248 108.215 109.248 118.712Z" fill="%23000"></path></svg>');
+        background-size: 24px 24px;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .header-text h1 {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin-bottom: 2px;
+      }
+
+      .ht_header-subtitle {
+        font-size: 12px;
+        color: var(--vscode-descriptionForeground);
+        font-weight: 400;
+      }
+
+      /* Main Content */
+      .ht_main-content {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      /* Sidebar Navigation */
+      .ht_tab-navigation {
+        width: 220px;
+        background: var(--vscode-menu-background);
+        border-right: 1px solid var(--vscode-menu-border);
+        padding: 16px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .ht_tab-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--vscode-menu-foreground);
+        transition: var(--transition);
+        border-radius: var(--radius-md);
+        position: relative;
+        border: 1px solid transparent;
+      }
+
+      .ht_tab-item:hover {
+        background: var(--vscode-list-hoverBackground);
+        color: var(--vscode-menu-selectionForeground);
+        border-color: var(--vscode-editorWidget-border);
+      }
+
+      .ht_tab-item.active {
+        background: var(--vscode-list-activeSelectionBackground);
+        color: var(--vscode-list-activeSelectionForeground);
+        border-color: var(--vscode-focusBorder);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .ht_tab-icon {
+        width: 18px;
+        height: 18px;
+        opacity: 0.7;
+        transition: var(--transition);
+        flex-shrink: 0;
+      }
+
+      .ht_tab-item:hover .ht_tab-icon {
+        opacity: 0.85;
+      }
+
+      .ht_tab-item.active .ht_tab-icon {
+        opacity: 1;
+      }
+
+      .ht_tab-label {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      .ht_subsection {
+        margin-top: 1rem;
+        padding: 8px 12px;
+      }
+
+      /* Content Area */
+      .ht_tab-content-area {
+        flex: 1;
+        padding: 24px;
+        overflow-y: auto;
+        background: var(--vscode-editor-background);
+      }
+
+      .ht_tab-content {
+        display: none;
+        max-width: 800px;
+      }
+
+      .ht_tab-content.active {
+        display: block;
+      }
+
+      .ht_content-header {
+        margin-bottom: 12px;
+      }
+
+      .ht_content-title {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0;
+        margin-bottom: 0;
+      }
+
+      .ht_content-subtitle {
+        font-size: 14px;
+        color: var(--vscode-descriptionForeground);
+        font-weight: 400;
+      }
+
+      /* Sections */
+      .ht_section {
+        margin-bottom: 32px;
+      }
+
+      .ht_section-title {
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 9px;
+        color: var(--text-primary);
+      }
+
+      .ht_section-content {
+        /* background: var(--vscode-editorWidget-background); */
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--vscode-widget-shadow);
+      }
+
+      /* Conversion Cards */
+      .ht_conversion-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      .ht_conversion-card {
+        background: var(--vscode-editorWidget-background);
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all 0.2s ease;
+      }
+
+      .ht_conversion-card:hover {
+        border-color: var(--vscode-focusBorder);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .ht_card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        background: var(--vscode-editor-background);
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+      }
+
+      .ht_card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text-primary);
+      }
+
+      .ht_card-badge {
+        background: var(--vscode-button-background);
+        color: var(--vscode-button-foreground);
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .ht_card-content {
+        padding: 1.5rem;
+      }
+
+      .ht_card-description {
+        margin: 0 0 1.5rem 0;
+        color: var(--vscode-descriptionForeground);
+        line-height: 1.5;
+      }
+
+      .ht_card-steps,
+      .ht_card-benefits {
+        margin-bottom: 1.5rem;
+      }
+
+      .ht_card-steps h4,
+      .ht_card-benefits h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin: 0 0 0.75rem 0;
+        color: var(--text-primary);
+      }
+
+      .ht_card-steps ol,
+      .ht_card-benefits ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: var(--vscode-descriptionForeground);
+      }
+
+      .ht_card-steps li,
+      .ht_card-benefits li {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+      }
+
+      .ht_card-steps code {
+        background: var(--vscode-textCodeBlock-background);
+        color: var(--vscode-textPreformat-foreground);
+        padding: 0.125rem 0.375rem;
+        border-radius: var(--radius-sm);
+        font-family: var(--vscode-editor-font-family);
+        font-size: 0.85em;
+      }
+
+      /* Action Rows */
+      .ht_action-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        border-bottom: 1px solid rgb(255 255 255 / 9%);
+        transition: var(--transition);
+      }
+
+      .ht_action-row:last-child {
+        border-bottom: none;
+      }
+
+      .ht_action-row:hover {
+        /* background: var(--vscode-list-hoverBackground); */
+      }
+
+      .ht_action-info {
+        flex: 1;
+        margin-right: 20px;
+      }
+
+      .ht_action-title {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 4px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .ht_info-accordion {
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+      }
+
+      .ht_info-toggle {
+        appearance: none;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        opacity: 0.8;
+      }
+
+      .ht_info-toggle:hover,
+      .ht_info-toggle:focus-visible,
+      .ht_info-accordion.open .ht_info-toggle {
+        opacity: 1;
+        transform: translateY(-1px);
+      }
+
+      .ht_info-toggle:focus-visible {
+        box-shadow: 0 0 0 2px
+          var(--vscode-focusBorder, rgba(55, 148, 255, 0.6));
+        outline: none;
+      }
+
+      .ht_info-icon {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(
+          --vscode-editorInfo-foreground,
+          var(--ht-accent-color, #3794ff)
+        );
+        color: var(
+          --vscode-editorWidget-background,
+          var(--ht-background-secondary, #1e1e1e)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        pointer-events: none;
+      }
+
+      .ht_info-icon::before {
+        content: "i";
+      }
+
+      .ht_info-content {
+        display: none;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: rgba(55, 148, 255, 0.08);
+        border-left: 2px solid
+          var(--vscode-editorInfo-foreground, var(--ht-accent-color, #3794ff));
+        color: var(--vscode-descriptionForeground);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .ht_info-accordion.open .ht_info-content {
+        display: block;
+      }
+
+      .ht_action-description {
+        font-size: 12px;
+        color: var(--vscode-descriptionForeground);
+        line-height: 1.4;
+      }
+
+      /* Buttons */
+      .ht_action-btn {
+        padding: 8px 16px;
+        border: 1px solid var(--vscode-button-border, var(--vscode-editorWidget-border));
+        border-radius: var(--radius-md);
+        background: var(--vscode-button-secondaryBackground);
+        color: var(--vscode-button-secondaryForeground);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 32px;
+      }
+
+      .ht_action-btn:hover {
+        background: var(--vscode-button-secondaryHoverBackground);
+        border-color: var(--vscode-editorWidget-border);
+        transform: translateY(-1px);
+      }
+
+      .ht_action-btn.primary {
+        background: var(--vscode-button-background);
+        color: var(--vscode-button-foreground);
+        border-color: var(--vscode-button-background);
+      }
+
+      .ht_action-btn.primary:hover {
+        background: var(--vscode-button-hoverBackground);
+        border-color: var(--vscode-button-hoverBackground);
+      }
+
+      /* Audit Results */
+      .ht_audit-results {
+        margin-top: 16px;
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: var(--radius-lg);
+        background: var(--vscode-editorWidget-background);
+        overflow: hidden;
+        box-shadow: var(--vscode-widget-shadow);
+      }
+
+      .ht_results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--vscode-editorGroupHeader-tabsBackground);
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+      }
+
+      .ht_results-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--vscode-foreground);
+      }
+
+      .ht_results-close {
+        background: none;
+        border: none;
+        color: var(--vscode-foreground);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        line-height: 1;
+      }
+
+      .ht_results-close:hover {
+        background: var(--vscode-toolbar-hoverBackground);
+      }
+
+      .ht_results-content {
+        padding: 16px;
+        max-height: 400px;
+        overflow-y: auto;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      /* Command Results */
+      .ht_command-results {
+        margin-top: 16px;
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: var(--radius-lg);
+        background: var(--vscode-editorWidget-background);
+        overflow: hidden;
+        box-shadow: var(--vscode-widget-shadow);
+      }
+
+      .ht_command-output {
+        background: var(--vscode-editor-background);
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: 4px;
+        padding: 12px;
+        font-family: var(--vscode-editor-font-family), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--vscode-editor-foreground);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .ht_command-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .ht_command-status.success {
+        background: var(--vscode-testing-iconPassed);
+        color: var(--vscode-foreground);
+        opacity: 0.1;
+        border: 1px solid var(--vscode-testing-iconPassed);
+      }
+
+      .ht_command-status.error {
+        background: var(--vscode-testing-iconFailed);
+        color: var(--vscode-foreground);
+        opacity: 0.1;
+        border: 1px solid var(--vscode-testing-iconFailed);
+      }
+
+      .ht_command-status.running {
+        background: var(--vscode-progressBar-background);
+        color: var(--vscode-foreground);
+        opacity: 0.1;
+        border: 1px solid var(--vscode-progressBar-background);
+      }
+
+      .ht_command-meta {
+        font-size: 11px;
+        color: var(--vscode-descriptionForeground);
+        margin-bottom: 8px;
+        font-family: var(--vscode-editor-font-family), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      }
+
+      .ht_command-output-section {
+        margin-top: 12px;
+      }
+
+      .ht_command-output-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--vscode-foreground);
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+        padding-bottom: 4px;
+      }
+
+      .ht_results-summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: var(--vscode-editorHoverWidget-background);
+        border-radius: var(--radius-md);
+      }
+
+      .ht_summary-item {
+        text-align: center;
+      }
+
+      .ht_summary-number {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--vscode-foreground);
+      }
+
+      .ht_summary-label {
+        display: block;
+        font-size: 11px;
+        color: var(--vscode-descriptionForeground);
+        margin-top: 4px;
+      }
+
+      .ht_summary-number.error {
+        color: var(--vscode-errorForeground);
+      }
+
+      .ht_summary-number.warning {
+        color: var(--vscode-warningForeground);
+      }
+
+      .ht_summary-number.info {
+        color: var(--vscode-infoForeground);
+      }
+
+      .ht_issue-item {
+        margin-bottom: 12px;
+        padding: 12px;
+        background: var(--vscode-editorWidget-background);
+        border: 1px solid var(--vscode-editorWidget-border);
+        border-radius: var(--radius-md);
+      }
+
+      .ht_issue-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .ht_issue-icon {
+        font-size: 14px;
+        line-height: 1;
+        margin-top: 1px;
+      }
+
+      .ht_issue-title {
+        font-weight: 600;
+        color: var(--vscode-foreground);
+        flex: 1;
+      }
+
+      .ht_issue-description {
+        color: var(--vscode-descriptionForeground);
+        margin-bottom: 8px;
+        font-size: 11px;
+      }
+
+      .ht_issue-code {
+        background: var(--vscode-textCodeBlock-background);
+        padding: 8px;
+        border-radius: 4px;
+        font-family: var(--vscode-editor-font-family);
+        font-size: 11px;
+        color: var(--vscode-textPreformat-foreground);
+        margin: 8px 0;
+        overflow-x: auto;
+      }
+
+      .ht_issue-fix {
+        background: var(--vscode-editorHoverWidget-background);
+        padding: 8px;
+        border-radius: 4px;
+        border-left: 3px solid var(--vscode-infoForeground);
+        font-size: 11px;
+        color: var(--vscode-foreground);
+      }
+
+      .ht_copy-prompt {
+        background: var(--vscode-textCodeBlock-background);
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 8px;
+        font-family: var(--vscode-editor-font-family);
+        font-size: 10px;
+        color: var(--vscode-textPreformat-foreground);
+        position: relative;
+      }
+
+      .ht_copy-prompt::before {
+        content: "📋 Copy this prompt to Cursor:";
+        display: block;
+        margin-bottom: 4px;
+        color: var(--vscode-descriptionForeground);
+        font-size: 10px;
+      }
+
+      /* Terminal-style Audit Styles */
+      .ht_audit-header {
+        background: var(--vscode-terminal-background);
+        color: var(--vscode-terminal-foreground);
+        padding: 12px;
+        font-family: var(--vscode-editor-font-family);
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+      }
+
+      .ht_audit-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .ht_audit-directory {
+        font-size: 11px;
+        color: var(--vscode-terminal-ansiBlue);
+      }
+
+      .ht_audit-summary {
+        background: var(--vscode-terminal-background);
+        color: var(--vscode-terminal-foreground);
+        padding: 12px;
+        border-bottom: 1px solid var(--vscode-editorWidget-border);
+      }
+
+      .ht_summary-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .ht_summary-separator {
+        font-size: 11px;
+        color: var(--vscode-terminal-ansiYellow);
+        margin-bottom: 8px;
+        font-family: monospace;
+      }
+
+      .ht_summary-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 11px;
+      }
+
+      .ht_stat {
+        font-family: var(--vscode-editor-font-family);
+      }
+
+      .ht_stat.error {
+        color: var(--vscode-terminal-ansiRed);
+      }
+
+      .ht_stat.warning {
+        color: var(--vscode-terminal-ansiYellow);
+      }
+
+      .ht_stat.info {
+        color: var(--vscode-terminal-ansiBlue);
+      }
+
+      .ht_stat.total {
+        color: var(--vscode-terminal-ansiGreen);
+      }
+
+      .ht_issues-section {
+        padding: 12px;
+      }
+
+      .ht_issues-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--vscode-terminal-foreground);
+      }
+
+      .ht_issues-separator {
+        font-size: 11px;
+        color: var(--vscode-terminal-ansiYellow);
+        margin-bottom: 12px;
+        font-family: monospace;
+      }
+
+      .ht_issue-number {
+        font-family: var(--vscode-editor-font-family);
+        font-weight: 600;
+        color: var(--vscode-terminal-ansiBlue);
+        margin-right: 8px;
+      }
+
+      .ht_code-label {
+        font-size: 10px;
+        color: var(--vscode-terminal-ansiBlue);
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .ht_code-content {
+        background: var(--vscode-textCodeBlock-background);
+        padding: 8px;
+        border-radius: 4px;
+        font-family: var(--vscode-editor-font-family);
+        font-size: 10px;
+      }
+
+      .ht_code-line {
+        color: var(--vscode-terminal-ansiYellow);
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .ht_code-text {
+        color: var(--vscode-textPreformat-foreground);
+      }
+
+      .ht_issue-actions {
+        margin-top: 8px;
+      }
+
+      .ht_send-to-cursor-btn {
+        background: var(--vscode-button-background);
+        color: var(--vscode-button-foreground);
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 10px;
+        cursor: pointer;
+        font-family: var(--vscode-editor-font-family);
+        transition: background-color 0.2s;
+      }
+
+      .ht_send-to-cursor-btn:hover {
+        background: var(--vscode-button-hoverBackground);
+      }
+
+      /* Status Indicators */
+      .ht_status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--vscode-descriptionForeground);
+      }
+
+      .ht_status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--text-muted);
+      }
+
+      .status-dot.active {
+        background: var(--success);
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+      }
+
+      .status-dot.pending {
+        background: var(--warning);
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+      }
+
+      /* Toggle Switch */
+      .ht_toggle-switch {
+        width: 40px;
+        height: 20px;
+        position: relative;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-switch label {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-button);
+        border: 1px solid var(--border-primary);
+        border-radius: 10px;
+        transition: var(--transition);
+      }
+
+      .toggle-switch label:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 2px;
+        bottom: 2px;
+        background: var(--text-tertiary);
+        border-radius: 50%;
+        transition: var(--transition);
+      }
+
+      .toggle-switch input:checked + label {
+        background: var(--accent-primary);
+        border-color: var(--accent-primary);
+      }
+
+      .toggle-switch input:checked + label:before {
+        background: white;
+        transform: translateX(20px);
+      }
+
+      /* Scrollbars */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-primary);
+        border-radius: 3px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-tertiary);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .tab-content.active {
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .ht_main-content {
+          flex-direction: column;
+        }
+
+        .ht_tab-navigation {
+          width: 100%;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--border-primary);
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .ht_nav-section {
+          display: inline-block;
+          margin-right: 24px;
+          margin-bottom: 0;
+        }
+
+        .ht_conversion-cards {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .ht_card-header {
+          padding: 0.75rem 1rem;
+        }
+
+        .ht_card-content {
+          padding: 1rem;
+        }
+
+        .ht_action-info {
+          flex: auto;
+        }
+
+        .ht_action-row {
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .ht_tab-item {
+          display: inline-flex;
+          margin-right: 8px;
+        }
+      }
+
+      /* Server Management Styles */
+      .ht_subsection-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ht-foreground-primary);
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--ht-border-color);
+      }
+
+      .ht_running-servers-list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .ht_server-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background: var(--ht-background-tertiary);
+        border: 1px solid var(--ht-border-color);
+        border-radius: var(--ht-radius);
+        transition: all 0.2s ease;
+      }
+
+      .ht_server-item:hover {
+        background: var(--ht-background-hover);
+        border-color: var(--ht-border-light);
+      }
+
+      .ht_server-item.active {
+        border-color: var(--ht-accent-color);
+        box-shadow: 0 0 0 1px var(--ht-accent-color);
+      }
+
+      .ht_server-info {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .ht_server-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ht-foreground-primary);
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .ht_server-badge {
+        padding: 0.125rem 0.5rem;
+        background: var(--ht-accent-color);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .ht_server-details {
+        font-size: 11px;
+        color: var(--ht-foreground-secondary);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .ht_server-port {
+        color: var(--ht-accent-color);
+        font-weight: 600;
+      }
+
+      .ht_server-url {
+        color: var(--ht-text-link-foreground);
+        font-family: var(--vscode-editor-font-family);
+        font-size: 10px;
+        background: var(--ht-background-secondary);
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;
+        border: 1px solid var(--ht-border-color);
+      }
+
+      .ht_server-folder {
+        color: var(--ht-foreground-secondary);
+      }
+
+      .ht_server-uptime {
+        color: var(--ht-foreground-secondary);
+      }
+
+      .ht_server-status {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 11px;
+      }
+
+      .ht_status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ht-success-color);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .ht_server-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .ht_server-btn {
+        padding: 0.375rem 0.75rem;
+        border: 1px solid var(--ht-border-color);
+        background: var(--ht-background-secondary);
+        color: var(--ht-foreground-primary);
+        border-radius: var(--ht-radius);
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .ht_server-btn:hover {
+        background: var(--ht-background-hover);
+        border-color: var(--ht-border-light);
+      }
+
+      .ht_server-btn.stop {
+        color: var(--ht-error-color);
+        border-color: var(--ht-error-color);
+      }
+
+      .ht_server-btn.stop:hover {
+        background: var(--ht-error-color);
+        color: white;
+      }
+
+      .ht_server-btn.open {
+        color: var(--ht-accent-color);
+        border-color: var(--ht-accent-color);
+      }
+
+      .ht_server-btn.open:hover {
+        background: var(--ht-accent-color);
+        color: white;
+      }
+
+      .ht_no-servers-message {
+        border: 2px dashed var(--ht-border-color);
+        border-radius: var(--ht-radius);
+        opacity: 0.7;
+      }
+
+      /* Sub-menu styling */
+      .ht_sub-menu-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .ht_sub-menu-navigation {
+        display: flex;
+        gap: 0;
+        margin-bottom: 16px;
+        background: var(--ht-background-tertiary);
+        padding: 0.25rem;
+        overflow-x: auto;
+        border: 1px solid rgb(255 255 255 / 10%);
+        border-radius: var(--radius-lg);
+      }
+
+      .ht_sub-menu-item {
+        padding: 0.75rem 1rem;
+        background: transparent;
+        border: none;
+        border-radius: var(--ht-radius);
+        color: var(--ht-foreground-secondary);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      .ht_sub-menu-item:hover {
+        background: var(--vscode-list-hoverBackground);
+        color: var(--vscode-list-activeSelectionForeground);
+      }
+
+      .ht_sub-menu-item.active {
+        background: var(--vscode-list-activeSelectionBackground);
+        color: var(--vscode-list-activeSelectionForeground);
+        /* font-weight: 600; */
+      }
+
+      .ht_sub-menu-item svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+      }
+
+      .ht_sub-menu-item.active svg {
+        opacity: 1;
+      }
+
+      .ht_sub-menu-content {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .ht_sub-menu-panel {
+        display: none;
+      }
+
+      .ht_sub-menu-panel.active {
+        display: block;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Input and Control Styles */
+      .ht_input-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .ht_input-field {
+        padding: 8px;
+        border: 1px solid var(--vscode-input-border);
+        background: var(--vscode-input-background);
+        color: var(--vscode-input-foreground);
+        border-radius: 4px;
+        width: 120px;
+        font-size: 12px;
+      }
+
+      .ht_empty-state {
+        text-align: center;
+        color: var(--ht-foreground-secondary);
+        padding: 1rem;
+      }
+
+      .ht_empty-state-text {
+        font-size: 12px;
+        opacity: 0.7;
+      }
+
+      .ht_hidden {
+        display: none;
+      }
+
+      /* Mobile responsiveness for sub-menu */
+      @media (max-width: 768px) {
+        .ht_sub-menu-navigation {
+          padding: 0.125rem;
+          flex-wrap: wrap;
+        }
+
+        .ht_sub-menu-item {
+          padding: 0.5rem 0.75rem;
+          font-size: 12px;
+        }
+      }
+
+      /* Extra small screens */
+      @media (max-width: 340px) {
+        .ht_tab-label {
+          display: none;
+        }
+
+        .ht_tab-item {
+          margin-right: 0;
+        }
+
+        .ht_header {
+          display: none;
+        }
+
+        .ht_input-controls {
+          flex-wrap: wrap;
+        }
+
+        .ht_input-field {
+          width: auto;
+        }
+      }
+
+      /* Converter Interface Styles */
+      .ht_converter-interface {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .ht_converter-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .ht_input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .ht_label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ht-foreground);
+        margin-bottom: 0.25rem;
+      }
+
+      .ht_textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        background: var(--ht-background-secondary);
+        border: 1px solid var(--ht-border);
+        border-radius: var(--ht-radius);
+        color: var(--ht-foreground);
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 13px;
+        line-height: 1.5;
+        resize: vertical;
+        transition: border-color 0.2s ease;
+      }
+
+      .ht_textarea:focus {
+        outline: none;
+        border-color: var(--vscode-focusBorder);
+      }
+
+      .ht_textarea::placeholder {
+        color: var(--ht-foreground-secondary);
+      }
+
+      .ht_converter-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .ht_primary-btn {
+        background: var(--vscode-button-background) !important;
+        color: var(--vscode-button-foreground) !important;
+      }
+
+      .ht_primary-btn:hover {
+        background: var(--vscode-button-hoverBackground) !important;
+      }
+
+      .ht_converter-output {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .ht_output-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .ht_copy-btn {
+        padding: 0.5rem 0.75rem;
+        background: var(--ht-background-secondary);
+        border: 1px solid var(--ht-border);
+        border-radius: var(--ht-radius);
+        color: var(--ht-foreground);
+        font-size: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+      }
+
+      .ht_copy-btn:hover {
+        background: var(--vscode-list-hoverBackground);
+        border-color: var(--vscode-focusBorder);
+      }
+
+      .ht_output-code {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        background: var(--ht-background-secondary);
+        border: 1px solid var(--ht-border);
+        border-radius: var(--ht-radius);
+        color: var(--ht-foreground);
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 13px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow: auto;
+        margin: 0;
+      }
+
+      .ht_conversion-tips {
+        grid-column: 1 / -1;
+        background: var(--ht-background-secondary);
+        border: 1px solid var(--ht-border);
+        border-radius: var(--ht-radius);
+        padding: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .ht_conversion-tips h3 {
+        color: var(--ht-foreground);
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 1rem 0;
+      }
+
+      .ht_conversion-tips ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: var(--ht-foreground-secondary);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .ht_conversion-tips li {
+        margin-bottom: 0.5rem;
+      }
+
+      /* Responsive design for converter */
+      @media (max-width: 991px) {
+        .ht_converter-interface {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ht_container">
+      <div class="ht_header">
+        <div class="ht_header-content">
+          <div class="ht_header-icon"></div>
+          <div class="header-text">
+            <h1>HTFlow</h1>
+            <p class="ht_header-subtitle">
+              Build with AI and deploy in Webflow
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ht_main-content">
+        <div class="ht_tab-navigation">
+          <div class="ht_tab-item active" data-tab="cli">
+            <svg
+              class="ht_tab-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 256 256"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m120 137l-72 64a12 12 0 1 1-16-18l61.91-55L32 73a12 12 0 1 1 16-18l72 64a12 12 0 0 1 0 18m96 43h-96a12 12 0 0 0 0 24h96a12 12 0 0 0 0-24"
+                fill="currentColor"
+              />
+            </svg>
+            <span class="ht_tab-label">HTFlow CLI</span>
+          </div>
+
+          <div class="ht_tab-item" data-tab="browser">
+            <svg
+              class="ht_tab-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+              />
+            </svg>
+            <span class="ht_tab-label">Live Preview</span>
+          </div>
+
+          <div class="ht_tab-item" data-tab="conversion">
+            <svg
+              class="ht_tab-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 19a2 2 0 0 1-2-2v-4l-1-1l1-1V7a2 2 0 0 1 2-2m6 6.875l3-1.687m-3 1.687v3.375m0-3.375l-3-1.687m3 1.687l3 1.688M12 8.5v3.375m0 0l-3 1.688M18 19a2 2 0 0 0 2-2v-4l1-1l-1-1V7a2 2 0 0 0-2-2"
+              />
+            </svg>
+            <span class="ht_tab-label">Conversion</span>
+          </div>
+
+          <div class="ht_tab-item" data-tab="settings">
+            <svg
+              class="ht_tab-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"
+              />
+            </svg>
+            <span class="ht_tab-label">Settings</span>
+          </div>
+        </div>
+
+        <div class="ht_tab-content-area">
+          <!-- CLI Tab with Sub-menus -->
+          <div class="ht_tab-content active" id="cli-tab">
+            <div class="ht_content-header">
+              <h1 class="ht_content-title">HTFlow CLI Commands</h1>
+              <p class="ht_content-subtitle">
+                Execute HTFlow CLI commands with visual buttons
+              </p>
+            </div>
+
+            <div class="ht_sub-menu-container">
+              <!-- Sub-menu Navigation -->
+              <div class="ht_sub-menu-navigation">
+                <button class="ht_sub-menu-item active" data-submenu="package">
+                  Package
+                </button>
+                <button class="ht_sub-menu-item" data-submenu="project">
+                  Project
+                </button>
+                <button class="ht_sub-menu-item" data-submenu="development">
+                  Server
+                </button>
+                <button class="ht_sub-menu-item" data-submenu="build">
+                  Build
+                </button>
+                <button class="ht_sub-menu-item" data-submenu="validation">
+                  Validation
+                </button>
+                <button class="ht_sub-menu-item" data-submenu="mcp">MCP</button>
+              </div>
+
+              <!-- Sub-menu Content -->
+              <div class="ht_sub-menu-content">
+                <!-- Package Sub-menu Panel -->
+                <div class="ht_sub-menu-panel active" id="package-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">Package Management</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            npm install -g htflow-cli
+                          </div>
+                          <div class="ht_action-description">
+                            Install HTFlow CLI globally
+                          </div>
+                        </div>
+                        <button
+                          class="ht_action-btn primary"
+                          id="installHtflowBtn"
+                        >
+                          Install HTFlow CLI
+                        </button>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            npm install -g htflow-cli@latest
+                          </div>
+                          <div class="ht_action-description">
+                            Update to latest version of HTFlow CLI
+                          </div>
+                        </div>
+                        <button class="ht_action-btn" id="updateHtflowBtn">
+                          Update CLI
+                        </button>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            npm uninstall -g htflow-cli
+                          </div>
+                          <div class="ht_action-description">
+                            Remove HTFlow CLI from system
+                          </div>
+                        </div>
+                        <button class="ht_action-btn" id="uninstallHtflowBtn">
+                          Uninstall CLI
+                        </button>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            npx htflow --version
+                          </div>
+                          <div class="ht_action-description">
+                            Check installed HTFlow CLI version
+                          </div>
+                        </div>
+                        <button class="ht_action-btn" id="htflowVersionBtn">
+                          Check Version
+                        </button>
+                      </div>
+
+                      <!-- Package Command Results Display Area -->
+                      <div
+                        id="packageCommandResultsContainer"
+                        class="ht_command-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div
+                            class="ht_results-title"
+                            id="packageCommandResultsTitle"
+                          >
+                            Command Results
+                          </div>
+                          <button
+                            class="ht_results-close"
+                            id="closePackageCommandResults"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="packageCommandResultsContent"
+                        >
+                          <!-- Command results will be populated here -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Project Sub-menu Panel -->
+                <div class="ht_sub-menu-panel" id="project-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">Project Commands</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow init</div>
+                          <div class="ht_action-description">
+                            Initialize an HTFlow project with boilerplate and
+                            rules in the current directory
+                          </div>
+                        </div>
+                        <button
+                          class="ht_action-btn primary"
+                          id="htflowInitBtn"
+                        >
+                          Initialize Project
+                        </button>
+                      </div>
+
+                      <!-- Project Command Results Display Area -->
+                      <div
+                        id="projectCommandResultsContainer"
+                        class="ht_command-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div
+                            class="ht_results-title"
+                            id="projectCommandResultsTitle"
+                          >
+                            Command Results
+                          </div>
+                          <button
+                            class="ht_results-close"
+                            id="closeProjectCommandResults"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="projectCommandResultsContent"
+                        >
+                          <!-- Command results will be populated here -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Development Sub-menu Panel -->
+                <div class="ht_sub-menu-panel" id="development-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">Development Server</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            htflow serve dev [dir]
+                          </div>
+                          <div class="ht_action-description">
+                            Start a development server (JavaScript enabled) on
+                            port 3050
+                          </div>
+                          <div class="ht_info-accordion">
+                            <button
+                              type="button"
+                              class="ht_info-toggle"
+                              aria-expanded="false"
+                              aria-controls="ht-info-6"
+                              aria-label="Toggle info: Starts the HTFlow development server with JavaScript enabled for interactive testing. The [dir] parameter specifies the folder containing your HTML files to serve. If no directory is provided, it defaults to the current directory. The server will automatically detect and serve HTML files, enabling live reload and JavaScript execution for development and testing purposes."
+                            >
+                              <span class="ht_info-icon"></span>
+                            </button>
+                            <div
+                              class="ht_info-content"
+                              id="ht-info-6"
+                              aria-hidden="true"
+                              hidden=""
+                            >
+                              Starts the HTFlow development server with
+                              JavaScript enabled for interactive testing. The
+                              [dir] parameter specifies the folder containing
+                              your HTML files to serve. If no directory is
+                              provided, it defaults to the current directory.
+                              The server will automatically detect and serve
+                              HTML files, enabling live reload and JavaScript
+                              execution for development and testing purposes.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ht_input-controls">
+                          <input
+                            type="text"
+                            id="devServerFolderInput"
+                            placeholder="./dist (optional)"
+                            class="ht_input-field"
+                          />
+                          <input
+                            type="number"
+                            id="devServerPortInput"
+                            placeholder="3050"
+                            min="1000"
+                            max="9999"
+                            class="ht_input-field"
+                          />
+                          <button
+                            class="ht_action-btn primary"
+                            id="htflow-audit-button"
+                          >
+                            Start Dev Server
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            htflow serve start [dir]
+                          </div>
+                          <div class="ht_action-description">
+                            Start production server (JS disabled for Webflow
+                            preview) on port 3051
+                          </div>
+                          <div class="ht_info-accordion">
+                            <button
+                              type="button"
+                              class="ht_info-toggle"
+                              aria-expanded="false"
+                              aria-controls="ht-info-7"
+                              aria-label="Toggle info: Runs the production-style server that mimics Webflow's no-JS environment for accurate HTML extraction and conversion. The [dir] parameter specifies the folder containing your HTML files to serve. If no directory is provided, it defaults to the current directory.
+
+This server disables JavaScript to ensure no DOM manipulation occurs, which is crucial for the HTFlow Chrome extension to extract and convert your code to Webflow accurately. Without JavaScript interference, the extension can capture the pure HTML structure exactly as it should appear in Webflow.
+
+In production mode, JavaScript components may not load or function, but this is intentional and expected. You don't need to worry about missing functionality - simply extract and convert to Webflow. To test the actual interactive version with all JavaScript features working, use the development server instead."
+                            >
+                              <span class="ht_info-icon"></span>
+                            </button>
+                            <div
+                              class="ht_info-content"
+                              id="ht-info-7"
+                              aria-hidden="true"
+                              hidden=""
+                            >
+                              Runs the production-style server that mimics
+                              Webflow's no-JS environment for accurate HTML
+                              extraction and conversion. The [dir] parameter
+                              specifies the folder containing your HTML files to
+                              serve. If no directory is provided, it defaults to
+                              the current directory. This server disables
+                              JavaScript to ensure no DOM manipulation occurs,
+                              which is crucial for the HTFlow Chrome extension
+                              to extract and convert your code to Webflow
+                              accurately. Without JavaScript interference, the
+                              extension can capture the pure HTML structure
+                              exactly as it should appear in Webflow. In
+                              production mode, JavaScript components may not
+                              load or function, but this is intentional and
+                              expected. You don't need to worry about missing
+                              functionality - simply extract and convert to
+                              Webflow. To test the actual interactive version
+                              with all JavaScript features working, use the
+                              development server instead.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ht_input-controls">
+                          <input
+                            type="text"
+                            id="prodServerFolderInput"
+                            placeholder="./build (optional)"
+                            class="ht_input-field"
+                          />
+                          <input
+                            type="number"
+                            id="prodServerPortInput"
+                            placeholder="3051"
+                            min="1000"
+                            max="9999"
+                            class="ht_input-field"
+                          />
+                          <button
+                            class="ht_action-btn"
+                            id="htflow-webflow-button"
+                          >
+                            Start Prod Server
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Running Servers Status -->
+                      <div class="ht_subsection">
+                        <h3 class="ht_subsection-title">Running Servers</h3>
+                        <div
+                          id="runningServersList"
+                          class="ht_running-servers-list"
+                        >
+                          <div
+                            class="ht_no-servers-message"
+                            id="noServersMessage"
+                          >
+                            <div class="ht_empty-state">
+                              <p>No servers running</p>
+                              <p class="ht_empty-state-text">
+                                Start a server above to see it here
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Validation Sub-menu Panel -->
+                <div class="ht_sub-menu-panel" id="validation-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">File Validation</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow audit [dir]</div>
+                          <div class="ht_action-description">
+                            Comprehensive audit of entire project structure and
+                            compliance
+                          </div>
+                        </div>
+                        <div class="ht_action-controls">
+                          <input
+                            type="text"
+                            id="auditFolderInput"
+                            placeholder="./src (optional)"
+                            class="ht_input-field"
+                          />
+                          <button class="ht_action-btn" id="htflowAuditBtn">
+                            Audit Project
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Audit Results Display Area -->
+                      <div
+                        id="auditResultsContainer"
+                        class="ht_audit-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div class="ht_results-title">📊 Audit Results</div>
+                          <button
+                            class="ht_results-close"
+                            id="closeAuditResults"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="auditResultsContent"
+                        >
+                          <!-- Results will be populated here -->
+                        </div>
+                      </div>
+
+                      <!-- Command Results Display Area -->
+                      <div
+                        id="commandResultsContainer"
+                        class="ht_command-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div
+                            class="ht_results-title"
+                            id="commandResultsTitle"
+                          >
+                            🔧 Command Output
+                          </div>
+                          <button
+                            class="ht_results-close"
+                            id="closeCommandResults"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="commandResultsContent"
+                        >
+                          <!-- Command results will be populated here -->
+                        </div>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow audit --html</div>
+                          <div class="ht_action-description">
+                            Generate detailed HTML compliance report
+                          </div>
+                        </div>
+                        <button class="ht_action-btn" id="htflowAuditHtmlBtn">
+                          HTML Report
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Build Sub-menu Panel -->
+                <div class="ht_sub-menu-panel" id="build-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">Build & Export</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow build</div>
+                          <div class="ht_action-description">
+                            Build and export Webflow-compatible files to the
+                            webflow/ directory
+                          </div>
+                        </div>
+                        <button
+                          class="ht_action-btn primary"
+                          id="htflowBuildBtn"
+                        >
+                          Build Project
+                        </button>
+                      </div>
+
+                      <!-- Build Command Results Display Area -->
+                      <div
+                        id="buildCommandResultsContainer"
+                        class="ht_command-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div
+                            class="ht_results-title"
+                            id="buildCommandResultsTitle"
+                          >
+                            Command Results
+                          </div>
+                          <button
+                            class="ht_results-close"
+                            id="closeBuildCommandResults"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="buildCommandResultsContent"
+                        >
+                          <!-- Command results will be populated here -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MCP Sub-menu Panel -->
+                <div class="ht_sub-menu-panel" id="mcp-submenu">
+                  <div class="ht_section">
+                    <h2 class="ht_section-title">MCP Configuration</h2>
+                    <div class="ht_section-content">
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow mcp-install</div>
+                          <div class="ht_action-description">
+                            Install MCP configuration (creates config files)
+                          </div>
+                        </div>
+                        <button
+                          class="ht_action-btn primary"
+                          id="htflowMcpInstallBtn"
+                        >
+                          Install MCP
+                        </button>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">
+                            htflow mcp-uninstall
+                          </div>
+                          <div class="ht_action-description">
+                            Uninstall MCP configuration (removes config files)
+                          </div>
+                        </div>
+                        <button
+                          class="ht_action-btn"
+                          id="htflowMcpUninstallBtn"
+                        >
+                          Uninstall MCP
+                        </button>
+                      </div>
+
+                      <div class="ht_action-row">
+                        <div class="ht_action-info">
+                          <div class="ht_action-title">htflow mcp-status</div>
+                          <div class="ht_action-description">
+                            Check MCP status and configuration
+                          </div>
+                        </div>
+                        <button class="ht_action-btn" id="htflowMcpStatusBtn">
+                          Check MCP Status
+                        </button>
+                      </div>
+
+                      <!-- MCP Command Results Display Area -->
+                      <div
+                        id="mcpCommandResultsContainer"
+                        class="ht_command-results ht_hidden"
+                      >
+                        <div class="ht_results-header">
+                          <div
+                            class="ht_results-title"
+                            id="mcpCommandResultsTitle"
+                          >
+                            Command Results
+                          </div>
+                          <button
+                            class="ht_results-close"
+                            id="closeMcpCommandResults"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                        <div
+                          class="ht_results-content"
+                          id="mcpCommandResultsContent"
+                        >
+                          <!-- Command results will be populated here -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Browser Tab -->
+          <div class="ht_tab-content" id="browser-tab">
+            <div class="ht_content-header">
+              <h1 class="ht_content-title">Live Preview Browser</h1>
+              <p class="ht_content-subtitle">
+                Open a new browser panel to preview your project with live
+                reload
+              </p>
+            </div>
+
+            <div class="ht_section">
+              <h2 class="ht_section-title">Browser Actions</h2>
+              <div class="ht_section-content">
+                <div class="ht_action-row">
+                  <div class="ht_action-info">
+                    <div class="ht_action-title">Open Live Preview Browser</div>
+                    <div class="ht_action-description">
+                      Launch a separate browser panel in a new VS Code tab with
+                      live reload capabilities
+                    </div>
+                  </div>
+                  <button class="ht_action-btn primary" id="openBrowserPanel">
+                    Open Browser Panel
+                  </button>
+                </div>
+
+                <!-- Browser Command Results Display Area -->
+                <div
+                  id="browserCommandResultsContainer"
+                  class="ht_command-results"
+                  style="display: none"
+                >
+                  <div class="ht_results-header">
+                    <div
+                      class="ht_results-title"
+                      id="browserCommandResultsTitle"
+                    >
+                      Command Results
+                    </div>
+                    <button
+                      class="ht_results-close"
+                      id="closeBrowserCommandResults"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div
+                    class="ht_results-content"
+                    id="browserCommandResultsContent"
+                  >
+                    <!-- Command results will be populated here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversion Tab -->
+          <div class="ht_tab-content" id="conversion-tab">
+            <div class="ht_content-header">
+              <h1 class="ht_content-title">HTML to Webflow Conversion</h1>
+              <p class="ht_content-subtitle">
+                Convert your HTML code to Webflow-compatible format using HTFlow
+                converter
+              </p>
+            </div>
+
+            <div class="ht_section">
+              <h2 class="ht_section-title">Conversion Options</h2>
+              <div class="ht_section-content">
+                <div class="ht_conversion-cards">
+                  <div class="ht_conversion-card">
+                    <div class="ht_card-header">
+                      <h3 class="ht_card-title">
+                        Option 1: With HTFlow Chrome Extension
+                      </h3>
+                      <div class="ht_card-badge">Recommended</div>
+                    </div>
+                    <div class="ht_card-content">
+                      <p class="ht_card-description">
+                        Use the HTFlow Chrome extension to directly convert HTML
+                        pages from any website into Webflow-compatible format.
+                      </p>
+                      <div class="ht_card-steps">
+                        <h4>Steps:</h4>
+                        <ol>
+                          <li>Install the HTFlow Chrome extension</li>
+                          <li>Navigate to your HTML page in the browser</li>
+                          <li>Click the HTFlow extension icon</li>
+                          <li>Follow the conversion wizard</li>
+                          <li>Import the generated code into Webflow</li>
+                        </ol>
+                      </div>
+                      <div class="ht_card-benefits">
+                        <h4>Benefits:</h4>
+                        <ul>
+                          <li>Direct browser-to-Webflow conversion</li>
+                          <li>No local setup required</li>
+                          <li>Works with any live website</li>
+                          <li>Automatic CSS and JS extraction</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ht_conversion-card">
+                    <div class="ht_card-header">
+                      <h3 class="ht_card-title">
+                        Option 2: With HTFlow Webflow App
+                      </h3>
+                      <div class="ht_card-badge">Advanced</div>
+                    </div>
+                    <div class="ht_card-content">
+                      <p class="ht_card-description">
+                        Use the HTFlow Webflow App for advanced conversion
+                        workflows with more control over the conversion process.
+                      </p>
+                      <div class="ht_card-steps">
+                        <h4>Steps:</h4>
+                        <ol>
+                          <li>
+                            Build your project using <code>htflow build</code>
+                          </li>
+                          <li>
+                            Copy HTML, CSS, and JS files from htflow-copyable
+                            folder
+                          </li>
+                          <li>Open the HTFlow Webflow App</li>
+                          <li>Paste your code into the app interface</li>
+                          <li>Configure conversion settings</li>
+                          <li>Generate Webflow-compatible output</li>
+                        </ol>
+                      </div>
+                      <div class="ht_card-benefits">
+                        <h4>Benefits:</h4>
+                        <ul>
+                          <li>More control over conversion process</li>
+                          <li>Batch processing capabilities</li>
+                          <li>Custom conversion settings</li>
+                          <li>Detailed conversion reports</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div class="ht_tab-content" id="settings-tab">
+            <div class="ht_content-header">
+              <h1 class="ht_content-title">HTFlow Settings</h1>
+              <p class="ht_content-subtitle">
+                Configure your HTFlow CLI preferences and project settings
+              </p>
+            </div>
+
+            <div class="ht_section">
+              <h2 class="ht_section-title">CLI Configuration</h2>
+              <div class="ht_section-content">
+                <div class="ht_action-row">
+                  <div class="ht_action-info">
+                    <div class="ht_action-title">Auto-build on Save</div>
+                    <div class="ht_action-description">
+                      Automatically build project when files are saved
+                    </div>
+                  </div>
+                  <div class="ht_toggle-switch">
+                    <input type="checkbox" id="autoBuild" checked />
+                    <label for="autoBuild"></label>
+                  </div>
+                </div>
+
+                <div class="ht_action-row">
+                  <div class="ht_action-info">
+                    <div class="ht_action-title">Enable Live Reload</div>
+                    <div class="ht_action-description">
+                      Automatically refresh browser on file changes
+                    </div>
+                  </div>
+                  <div class="ht_toggle-switch">
+                    <input type="checkbox" id="liveReload" checked />
+                    <label for="liveReload"></label>
+                  </div>
+                </div>
+
+                <div class="ht_action-row">
+                  <div class="ht_action-info">
+                    <div class="ht_action-title">Reset All Settings</div>
+                    <div class="ht_action-description">
+                      Reset HTFlow CLI to default configuration
+                    </div>
+                  </div>
+                  <button class="ht_action-btn" id="resetSettingsBtn">
+                    Reset Settings
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        console.log("HTFlow: Script starting...");
+        console.log(
+          "HTFlow: acquireVsCodeApi available:",
+          typeof acquireVsCodeApi !== "undefined"
+        );
+
+        const vscode =
+          typeof acquireVsCodeApi !== "undefined" ? acquireVsCodeApi() : null;
+
+        console.log("HTFlow: VS Code API acquired:", !!vscode);
+
+        class HTFlowPanel {
+          constructor() {
+            this.currentTab = "cli";
+            this.runningServers = new Map(); // Store running servers info
+            this.activeServerId = null;
+            this.init();
+          }
+
+          init() {
+            console.log("HTFlow: Initializing panel...");
+            this.setupTabNavigation();
+            this.setupButtonHandlers();
+            this.initializeUI();
+            this.setupInfoTooltips();
+            console.log("HTFlow: Panel initialization complete");
+          }
+
+          setupTabNavigation() {
+            const tabItems = document.querySelectorAll(".ht_tab-item");
+
+            tabItems.forEach((tab) => {
+              tab.addEventListener("click", (e) => {
+                const targetTab = tab.getAttribute("data-tab");
+                console.log(`HTFlow: Switching to tab: ${targetTab}`);
+                this.switchTab(targetTab);
+                if (vscode) {
+                  vscode.setState({ activeTab: targetTab });
+                }
+              });
+            });
+
+            if (vscode) {
+              const state = vscode.getState();
+              if (state && state.activeTab) {
+                this.switchTab(state.activeTab);
+              }
+            }
+
+            // Setup sub-menu navigation
+            this.setupSubMenuNavigation();
+          }
+
+          setupSubMenuNavigation() {
+            const subMenuItems = document.querySelectorAll(".ht_sub-menu-item");
+
+            subMenuItems.forEach((item) => {
+              item.addEventListener("click", (e) => {
+                const targetSubMenu = item.getAttribute("data-submenu");
+                this.switchSubMenu(targetSubMenu);
+                if (vscode) {
+                  vscode.setState({
+                    activeTab: this.currentTab,
+                    activeSubMenu: targetSubMenu,
+                  });
+                }
+              });
+            });
+
+            // Initialize with package sub-menu active
+            this.switchSubMenu("package");
+          }
+
+          switchSubMenu(subMenuName) {
+            // Update sub-menu item states
+            document.querySelectorAll(".ht_sub-menu-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+
+            // Update sub-menu panel states
+            document.querySelectorAll(".ht_sub-menu-panel").forEach((panel) => {
+              panel.classList.remove("active");
+            });
+
+            // Activate selected sub-menu
+            const activeSubMenuItem = document.querySelector(
+              `[data-submenu="${subMenuName}"]`
+            );
+            const activeSubMenuPanel = document.getElementById(
+              `${subMenuName}-submenu`
+            );
+
+            if (activeSubMenuItem && activeSubMenuPanel) {
+              activeSubMenuItem.classList.add("active");
+              activeSubMenuPanel.classList.add("active");
+              console.log(`HTFlow: Switched to sub-menu: ${subMenuName}`);
+            }
+          }
+
+          switchTab(tabName) {
+            console.log(`HTFlow: switchTab called with: ${tabName}`);
+
+            document.querySelectorAll(".ht_tab-item").forEach((tab) => {
+              tab.classList.remove("active");
+            });
+
+            document.querySelectorAll(".ht_tab-content").forEach((content) => {
+              content.classList.remove("active");
+            });
+
+            const activeTab = document.querySelector(
+              '[data-tab="' + tabName + '"]'
+            );
+            const activeContent = document.querySelector(
+              "#" + tabName + "-tab"
+            );
+
+            console.log(`HTFlow: Found activeTab:`, activeTab);
+            console.log(`HTFlow: Found activeContent:`, activeContent);
+
+            if (activeTab && activeContent) {
+              activeTab.classList.add("active");
+              activeContent.classList.add("active");
+              this.currentTab = tabName;
+              console.log(`HTFlow: Successfully switched to tab: ${tabName}`);
+            } else {
+              console.error(`HTFlow: Failed to switch to tab: ${tabName}`);
+              console.error(`HTFlow: activeTab found:`, !!activeTab);
+              console.error(`HTFlow: activeContent found:`, !!activeContent);
+              if (tabName !== "cli") {
+                console.log("HTFlow: Falling back to CLI tab");
+                this.switchTab("cli");
+              }
+            }
+          }
+
+          setupButtonHandlers() {
+            const buttons = {
+              initButton: () =>
+                this.handleHTFlowCommand(
+                  "htflow.init",
+                  "Initializing HTFlow project..."
+                ),
+              validateButton: () =>
+                this.handleHTFlowCommand(
+                  "htflow.validate",
+                  "Validating current file..."
+                ),
+              auditButton: () =>
+                this.handleHTFlowCommand(
+                  "htflow.audit",
+                  "Running comprehensive audit..."
+                ),
+              openBrowserPanel: () => this.openSeparateBrowserPanel(),
+
+              // HTFlow CLI Commands
+              htflowInitBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.init",
+                  "Initializing HTFlow project..."
+                ),
+              htflowAuditBtn: () => {
+                const folderInput = document.getElementById("auditFolderInput");
+                const folder = folderInput ? folderInput.value.trim() : "";
+                this.handleHTFlowCommandWithFolderForPanel(
+                  "htflow.audit",
+                  folder,
+                  "Running HTFlow audit..."
+                );
+              },
+              htflowAuditHtmlBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.audit.html",
+                  "Generating HTML audit report..."
+                ),
+              htflowBuildBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.build",
+                  "Building project for Webflow..."
+                ),
+              "htflow-audit-button": () => {
+                const folderInput = document.getElementById(
+                  "devServerFolderInput"
+                );
+                const portInput = document.getElementById("devServerPortInput");
+                const folder = folderInput ? folderInput.value.trim() : "";
+                const port = portInput
+                  ? portInput.value.trim() || "3050"
+                  : "3050";
+
+                console.log("HTFlow Dev Server - Folder:", folder);
+                console.log(
+                  "HTFlow Dev Server - Port Input Value:",
+                  portInput?.value
+                );
+                console.log("HTFlow Dev Server - Final Port:", port);
+
+                this.handleHTFlowCommandWithFolderAndPort(
+                  "htflow.serve.dev",
+                  folder,
+                  port,
+                  "Starting development server..."
+                );
+              },
+              "htflow-webflow-button": () => {
+                const folderInput = document.getElementById(
+                  "prodServerFolderInput"
+                );
+                const portInput = document.getElementById(
+                  "prodServerPortInput"
+                );
+                const folder = folderInput ? folderInput.value.trim() : "";
+                const port = portInput
+                  ? portInput.value.trim() || "3051"
+                  : "3051";
+
+                console.log("HTFlow Prod Server - Folder:", folder);
+                console.log(
+                  "HTFlow Prod Server - Port Input Value:",
+                  portInput?.value
+                );
+                console.log("HTFlow Prod Server - Final Port:", port);
+
+                this.handleHTFlowCommandWithFolderAndPort(
+                  "htflow.serve.prod",
+                  folder,
+                  port,
+                  "Starting production server..."
+                );
+              },
+              installHtflowBtn: () =>
+                this.handleHTFlowCommand(
+                  "npm.install",
+                  "Installing HTFlow CLI..."
+                ),
+              updateHtflowBtn: () =>
+                this.handleHTFlowCommand(
+                  "npm.update",
+                  "Updating HTFlow CLI..."
+                ),
+              htflowVersionBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.version",
+                  "Checking HTFlow CLI version..."
+                ),
+              uninstallHtflowBtn: () =>
+                this.handleHTFlowCommand(
+                  "npm.uninstall",
+                  "Uninstalling HTFlow CLI..."
+                ),
+              htflowVersionBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.version",
+                  "Checking HTFlow version..."
+                ),
+              closeAuditResults: () => this.closeAuditResults(),
+              closeCommandResults: () => this.closeCommandResults(),
+              closePackageCommandResults: () =>
+                this.closePackageCommandResults(),
+              closeProjectCommandResults: () =>
+                this.closeProjectCommandResults(),
+              closeBuildCommandResults: () => this.closeBuildCommandResults(),
+              closeBrowserCommandResults: () =>
+                this.closeBrowserCommandResults(),
+
+              // MCP Commands
+              htflowMcpInstallBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.mcp-install",
+                  "Installing MCP configuration..."
+                ),
+              htflowMcpUninstallBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.mcp-uninstall",
+                  "Uninstalling MCP configuration..."
+                ),
+              htflowMcpStatusBtn: () =>
+                this.handleHTFlowCommand(
+                  "htflow.mcp-status",
+                  "Checking MCP status..."
+                ),
+              closeMcpCommandResults: () => this.closeMcpCommandResults(),
+            };
+
+            console.log("HTFlow: Setting up button handlers...");
+            console.log(
+              "HTFlow: Found button definitions:",
+              Object.keys(buttons).length
+            );
+
+            Object.entries(buttons).forEach(([id, handler]) => {
+              const btn = document.getElementById(id);
+              if (btn) {
+                btn.addEventListener("click", (e) => {
+                  console.log(`HTFlow: Button ${id} clicked`);
+                  console.log(`HTFlow: Event target:`, e.target);
+                  try {
+                    handler();
+                  } catch (error) {
+                    console.error(`HTFlow: Error in handler for ${id}:`, error);
+                  }
+                });
+                console.log(`HTFlow: Registered handler for ${id}`);
+              } else {
+                console.warn(`HTFlow: Button ${id} not found in DOM`);
+              }
+            });
+
+            console.log("HTFlow: Button handler setup complete");
+          }
+
+          setupInfoTooltips() {
+            const tooltipConfig = [
+              {
+                selector: "#installHtflowBtn",
+                text: "Installs the HTFlow CLI globally on your system using npm. This allows you to run HTFlow commands from any terminal window or directory. The installation process downloads and configures the HTFlow CLI package, making it available system-wide for all your projects.",
+              },
+              {
+                selector: "#updateHtflowBtn",
+                text: "Updates your global HTFlow CLI installation to the newest published version available on npm. This ensures you have the latest features, bug fixes, and improvements. The update process will replace your current installation with the newest version while preserving your existing configuration.",
+              },
+              {
+                selector: "#uninstallHtflowBtn",
+                text: "Completely removes the globally installed HTFlow CLI package from your system. This will uninstall HTFlow from your machine and remove all associated files. After uninstalling, you will no longer be able to run HTFlow commands until you reinstall the package.",
+              },
+              {
+                selector: "#htflowVersionBtn",
+                text: "Displays the currently installed HTFlow CLI version number and build information. This helps you verify that updates were successful, troubleshoot version-related issues, or confirm which version you're running before reporting bugs or requesting support.",
+              },
+              {
+                selector: "#htflowInitBtn",
+                text: "Initializes a new HTFlow project in your current workspace by creating essential configuration files, directory structure, and starter templates. This sets up the foundation for your HTFlow project with default settings, example files, and proper folder organization for Webflow-compatible development.",
+              },
+              {
+                selector: "#htflow-audit-button",
+                text: "Starts the HTFlow development server with JavaScript enabled for interactive testing. The [dir] parameter specifies the folder containing your HTML files to serve. If no directory is provided, it defaults to the current directory. The server will automatically detect and serve HTML files, enabling live reload and JavaScript execution for development and testing purposes.",
+              },
+              {
+                selector: "#htflow-webflow-button",
+                text: "Runs the production-style server that mimics Webflow's no-JS environment for accurate HTML extraction and conversion. The [dir] parameter specifies the folder containing your HTML files to serve. If no directory is provided, it defaults to the current directory.\n\nThis server disables JavaScript to ensure no DOM manipulation occurs, which is crucial for the HTFlow Chrome extension to extract and convert your code to Webflow accurately. Without JavaScript interference, the extension can capture the pure HTML structure exactly as it should appear in Webflow.\n\nIn production mode, JavaScript components may not load or function, but this is intentional and expected. You don't need to worry about missing functionality - simply extract and convert to Webflow. To test the actual interactive version with all JavaScript features working, use the development server instead.",
+              },
+              {
+                selector: "#htflowServeCustomBtn",
+                text: "Launches an HTFlow server on a custom port when the default port 3000 is already in use or unavailable. This allows you to run multiple development servers simultaneously or work around port conflicts. The system will automatically find and use the next available port for your server.",
+              },
+              {
+                selector: "#htflowAuditBtn",
+                text: "Performs a comprehensive HTFlow audit on the selected directory, analyzing your HTML, CSS, and JavaScript files for Webflow compatibility issues. The audit checks for HTFlow rule violations, coding standards, responsive design issues, and provides detailed recommendations for improvement.",
+              },
+              {
+                selector: "#htflowAuditHtmlBtn",
+                text: "Generates a comprehensive HTML audit report containing detailed analysis results, recommendations, and visual indicators of issues found in your project. This report can be saved locally, shared with team members, or used for documentation and project reviews.",
+              },
+              {
+                selector: "#htflowBuildBtn",
+                text: "The build command creates an 'htflow-copyable' folder in your project and separates HTML, CSS, and JavaScript files for each page inside folders named after each page. You can copy the HTML, CSS, and JavaScript files and use the HTFlow Webflow App to convert them to Webflow.",
+              },
+              {
+                selector: "#openBrowserPanel",
+                text: "Opens the HTFlow live preview browser in a dedicated VS Code panel. This browser provides real-time preview of your HTML files with automatic reloading when changes are detected. It includes developer tools and debugging capabilities for seamless development workflow.",
+              },
+              {
+                selector: "#autoBuild",
+                text: "Enables or disables automatic HTFlow builds that trigger whenever you save project files. When enabled, HTFlow will automatically process and optimize your files for Webflow compatibility each time you make changes, ensuring your project stays up-to-date without manual intervention.",
+              },
+              {
+                selector: "#liveReload",
+                text: "Enables or disables automatic browser refreshes in the live preview panel. When enabled, the browser will automatically reload and display your latest changes whenever HTFlow detects modifications to your project files, providing instant visual feedback during development.",
+              },
+              {
+                selector: "#resetSettingsBtn",
+                text: "Restores all HTFlow panel settings, preferences, and configurations back to their original default values. This will reset auto-build settings, live reload preferences, server configurations, and any customizations you may have made, returning the panel to its initial state.",
+              },
+              {
+                selector: "#htflowMcpInstallBtn",
+                text: "Installs and configures the HTFlow MCP (Model Context Protocol) integration on your system. This enables advanced AI-powered features and capabilities within HTFlow, allowing for enhanced code generation, intelligent suggestions, and automated workflow optimizations for Webflow development.",
+              },
+              {
+                selector: "#htflowMcpUninstallBtn",
+                text: "Completely removes the HTFlow MCP integration from your system, including all configuration files, dependencies, and associated settings. This will disable MCP-powered features and restore HTFlow to its standard functionality without AI enhancements.",
+              },
+              {
+                selector: "#htflowMcpStatusBtn",
+                text: "Checks and displays the current status of your HTFlow MCP installation, including version information, configuration details, and operational status. This helps you verify that MCP is properly installed, configured, and functioning correctly for optimal performance.",
+              },
+            ];
+
+            let infoAccordionId = 0;
+
+            tooltipConfig.forEach(({ selector, text }) => {
+              const target = document.querySelector(selector);
+              if (!target) {
+                console.warn(
+                  "HTFlow: Tooltip target not found for selector",
+                  selector
+                );
+                return;
+              }
+
+              const actionRow = target.closest(".ht_action-row");
+              if (!actionRow) {
+                console.warn(
+                  "HTFlow: Unable to locate action row for selector",
+                  selector
+                );
+                return;
+              }
+
+              if (actionRow.querySelector(".ht_info-accordion")) {
+                return;
+              }
+
+              const descriptionElement = actionRow.querySelector(
+                ".ht_action-description"
+              );
+
+              if (!descriptionElement) {
+                console.warn(
+                  "HTFlow: Unable to locate action description for selector",
+                  selector
+                );
+                return;
+              }
+
+              const accordion = document.createElement("div");
+              accordion.className = "ht_info-accordion";
+
+              const toggle = document.createElement("button");
+              toggle.type = "button";
+              toggle.className = "ht_info-toggle";
+              toggle.setAttribute("aria-expanded", "false");
+
+              const infoId = `ht-info-${++infoAccordionId}`;
+              toggle.setAttribute("aria-controls", infoId);
+              toggle.setAttribute("aria-label", `Toggle info: ${text}`);
+
+              const icon = document.createElement("span");
+              icon.className = "ht_info-icon";
+              toggle.appendChild(icon);
+
+              const content = document.createElement("div");
+              content.className = "ht_info-content";
+              content.id = infoId;
+              content.textContent = text;
+              content.hidden = true;
+              content.setAttribute("aria-hidden", "true");
+
+              accordion.appendChild(toggle);
+              accordion.appendChild(content);
+
+              const setExpanded = (expanded) => {
+                toggle.setAttribute(
+                  "aria-expanded",
+                  expanded ? "true" : "false"
+                );
+                accordion.classList.toggle("open", expanded);
+                content.hidden = !expanded;
+                content.setAttribute(
+                  "aria-hidden",
+                  expanded ? "false" : "true"
+                );
+              };
+
+              const updateExpandedState = () => {
+                const shouldExpand =
+                  accordion.classList.contains("is-pinned") ||
+                  accordion.classList.contains("is-hovered") ||
+                  accordion.classList.contains("is-focused");
+                setExpanded(shouldExpand);
+              };
+
+              accordion.addEventListener("mouseenter", () => {
+                accordion.classList.add("is-hovered");
+                updateExpandedState();
+              });
+
+              accordion.addEventListener("mouseleave", () => {
+                accordion.classList.remove("is-hovered");
+                updateExpandedState();
+              });
+
+              toggle.addEventListener("focus", () => {
+                accordion.classList.add("is-focused");
+                updateExpandedState();
+              });
+
+              toggle.addEventListener("blur", () => {
+                accordion.classList.remove("is-focused");
+                updateExpandedState();
+              });
+
+              toggle.addEventListener("click", (event) => {
+                event.preventDefault();
+                const pinned = accordion.classList.toggle("is-pinned");
+                if (!pinned) {
+                  accordion.classList.remove("is-hovered");
+                  accordion.classList.remove("is-focused");
+                }
+                updateExpandedState();
+              });
+
+              toggle.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                  accordion.classList.remove("is-pinned");
+                  accordion.classList.remove("is-hovered");
+                  accordion.classList.remove("is-focused");
+                  setExpanded(false);
+                  toggle.blur();
+                }
+              });
+
+              setExpanded(false);
+
+              descriptionElement.insertAdjacentElement("afterend", accordion);
+            });
+          }
+
+          handleHTFlowCommand(command, message) {
+            console.log(`HTFlow: handleHTFlowCommand called`);
+            console.log(`HTFlow: Command:`, command);
+            console.log(`HTFlow: Message:`, message);
+            console.log(`HTFlow: VS Code API available:`, !!vscode);
+            console.log(`HTFlow: VS Code API type:`, typeof vscode);
+
+            // Handle MCP commands with specific results container
+            const isMcpCommand = command.startsWith("htflow.mcp");
+            const resultsContainerId = isMcpCommand
+              ? "mcpCommandResultsContainer"
+              : "commandResultsContainer";
+            const resultsTitleId = isMcpCommand
+              ? "mcpCommandResultsTitle"
+              : "commandResultsTitle";
+            const resultsContentId = isMcpCommand
+              ? "mcpCommandResultsContent"
+              : "commandResultsContent";
+
+            if (vscode) {
+              const messageData = {
+                command: command,
+                type: "htflow",
+                displayInPanel: true,
+                resultsContainerId: resultsContainerId,
+                resultsTitleId: resultsTitleId,
+                resultsContentId: resultsContentId,
+              };
+              console.log(`HTFlow: Preparing message data:`, messageData);
+
+              try {
+                vscode.postMessage(messageData);
+                console.log(`HTFlow: Message sent successfully to VS Code`);
+                this.showNotification(message, "success");
+
+                // Show the appropriate results container
+                if (isMcpCommand) {
+                  this.showMcpCommandResults(message);
+                } else {
+                  this.showCommandResults(message);
+                }
+              } catch (error) {
+                console.error(`HTFlow: Error sending message:`, error);
+                this.showNotification(`Error: ${error.message}`, "error");
+              }
+            } else {
+              console.error("HTFlow: VS Code API not available!");
+              this.showNotification(
+                "VS Code API not available - running in standalone mode",
+                "error"
+              );
+            }
+            console.log(`HTFlow: handleHTFlowCommand complete for ${command}`);
+          }
+
+          handleHTFlowCommandWithFolder(command, folder, message) {
+            console.log(`HTFlow: handleHTFlowCommandWithFolder called`);
+            console.log(`HTFlow: Command:`, command);
+            console.log(`HTFlow: Folder:`, folder);
+            console.log(`HTFlow: Message:`, message);
+
+            if (vscode) {
+              const messageData = {
+                command: command,
+                type: "htflow",
+                folder: folder,
+              };
+              console.log(`HTFlow: Preparing message data:`, messageData);
+
+              try {
+                vscode.postMessage(messageData);
+                console.log(`HTFlow: Message sent successfully to VS Code`);
+                const displayMessage = folder
+                  ? `${message} (folder: ${folder})`
+                  : message;
+                this.showNotification(displayMessage, "success");
+              } catch (error) {
+                console.error(`HTFlow: Error sending message:`, error);
+                this.showNotification(`Error: ${error.message}`, "error");
+              }
+            } else {
+              console.error("HTFlow: VS Code API not available!");
+              this.showNotification(
+                "VS Code API not available - running in standalone mode",
+                "error"
+              );
+            }
+            console.log(
+              `HTFlow: handleHTFlowCommandWithFolder complete for ${command}`
+            );
+          }
+
+          handleHTFlowCommandWithFolderForPanel(command, folder, message) {
+            console.log(`HTFlow: handleHTFlowCommandWithFolderForPanel called`);
+            console.log(`HTFlow: Command:`, command);
+            console.log(`HTFlow: Folder:`, folder);
+            console.log(`HTFlow: Message:`, message);
+
+            if (vscode) {
+              const messageData = {
+                command: command,
+                type: "htflow",
+                folder: folder,
+                displayInPanel: true, // Request panel display
+              };
+              console.log(
+                `HTFlow: Preparing message data for panel display:`,
+                messageData
+              );
+
+              try {
+                vscode.postMessage(messageData);
+                console.log(
+                  `HTFlow: Message sent successfully to VS Code for panel display`
+                );
+                const displayMessage = folder
+                  ? `${message} (folder: ${folder}) - Results will appear in panel`
+                  : `${message} - Results will appear in panel`;
+                this.showNotification(displayMessage, "success");
+              } catch (error) {
+                console.error(`HTFlow: Error sending message:`, error);
+                this.showNotification(`Error: ${error.message}`, "error");
+              }
+            } else {
+              console.error("HTFlow: VS Code API not available!");
+              this.showNotification(
+                "VS Code API not available - running in standalone mode",
+                "error"
+              );
+            }
+            console.log(
+              `HTFlow: handleHTFlowCommandWithFolderForPanel complete for ${command}`
+            );
+          }
+
+          handleHTFlowCommandWithFolderAndPort(command, folder, port, message) {
+            console.log(`HTFlow: handleHTFlowCommandWithFolderAndPort called`);
+            console.log(`HTFlow: Command:`, command);
+            console.log(`HTFlow: Folder:`, folder);
+            console.log(`HTFlow: Port:`, port);
+            console.log(`HTFlow: Message:`, message);
+
+            if (vscode) {
+              const messageData = {
+                command: command,
+                type: "htflow",
+                folder: folder,
+                port: port,
+              };
+              console.log(`HTFlow: Preparing message data:`, messageData);
+
+              try {
+                vscode.postMessage(messageData);
+                console.log(`HTFlow: Message sent successfully to VS Code`);
+                const displayMessage = folder
+                  ? `${message} (folder: ${folder}, port: ${port})`
+                  : `${message} (port: ${port})`;
+                this.showNotification(displayMessage, "success");
+              } catch (error) {
+                console.error(`HTFlow: Error sending message:`, error);
+                this.showNotification(`Error: ${error.message}`, "error");
+              }
+            } else {
+              console.error("HTFlow: VS Code API not available!");
+              this.showNotification(
+                "VS Code API not available - running in standalone mode",
+                "error"
+              );
+            }
+            console.log(
+              `HTFlow: handleHTFlowCommandWithFolderAndPort complete for ${command}`
+            );
+          }
+
+          handleAction(command, message) {
+            if (vscode) {
+              vscode.postMessage({ command: command });
+            }
+            this.showNotification(message, "info");
+            console.log("HTFlow:", message);
+          }
+
+          openSeparateBrowserPanel() {
+            if (vscode) {
+              vscode.postMessage({ command: "openBrowserPanel" });
+            }
+          }
+
+          startLiveServer() {
+            if (vscode) {
+              vscode.postMessage({ command: "startLiveServer", port: 3000 });
+            }
+          }
+
+          addDemoServer() {
+            // Add a demo server for preview purposes
+            const demoServerId = `demo-${Date.now()}`;
+            const demoServerInfo = {
+              port: 3000 + Math.floor(Math.random() * 1000),
+              mode: Math.random() > 0.5 ? "dev" : "prod",
+              folder: Math.random() > 0.5 ? "my-project" : null,
+              url: `http://localhost:${
+                3000 + Math.floor(Math.random() * 1000)
+              }`,
+            };
+
+            this.addRunningServer(demoServerId, demoServerInfo);
+            this.showNotification(
+              `Demo server added on port ${demoServerInfo.port}`,
+              "success"
+            );
+          }
+
+          // Server Management Methods
+          addRunningServer(serverId, serverInfo) {
+            console.log(
+              "HTFlow UI: addRunningServer called with:",
+              serverId,
+              serverInfo
+            );
+            const startTime = serverInfo.startTime
+              ? new Date(serverInfo.startTime)
+              : new Date();
+            const isActive = serverInfo.isActive ?? serverInfo.active ?? false;
+
+            this.runningServers.set(serverId, {
+              ...serverInfo,
+              startTime,
+              status: "running",
+            });
+
+            if (isActive || !this.activeServerId) {
+              this.activeServerId = serverId;
+            }
+            console.log(
+              "HTFlow UI: Running servers after add:",
+              this.runningServers.size
+            );
+            this.updateRunningServersList();
+            console.log("HTFlow: Server added:", serverId, serverInfo);
+          }
+
+          removeRunningServer(serverId) {
+            if (!this.runningServers.has(serverId)) {
+              this.updateRunningServersList();
+              return;
+            }
+
+            this.runningServers.delete(serverId);
+
+            if (this.activeServerId === serverId) {
+              const nextActive = this.runningServers.keys().next();
+              this.activeServerId = nextActive.done ? null : nextActive.value;
+            }
+            this.updateRunningServersList();
+            console.log("HTFlow: Server removed:", serverId);
+          }
+
+          updateRunningServersList() {
+            console.log(
+              "HTFlow UI: updateRunningServersList called, servers count:",
+              this.runningServers.size
+            );
+            const serversList = document.getElementById("runningServersList");
+            const noServersMessage =
+              document.getElementById("noServersMessage");
+
+            if (!serversList) {
+              console.log("HTFlow UI: runningServersList element not found!");
+              return;
+            }
+
+            // Clear existing server items
+            const existingItems =
+              serversList.querySelectorAll(".ht_server-item");
+            existingItems.forEach((item) => item.remove());
+
+            if (this.runningServers.size === 0) {
+              console.log(
+                "HTFlow UI: No servers running, showing empty message"
+              );
+              this.showElement(noServersMessage);
+              return;
+            }
+
+            console.log(
+              "HTFlow UI: Showing",
+              this.runningServers.size,
+              "servers"
+            );
+            this.hideElement(noServersMessage);
+
+            // Add server items
+            this.runningServers.forEach((serverInfo, serverId) => {
+              console.log(
+                "HTFlow UI: Creating server item for:",
+                serverId,
+                serverInfo
+              );
+              const serverItem = this.createServerItem(serverId, serverInfo);
+              serversList.appendChild(serverItem);
+            });
+          }
+
+          createServerItem(serverId, serverInfo) {
+            const serverItem = document.createElement("div");
+            serverItem.className = "ht_server-item";
+            serverItem.setAttribute("data-server-id", serverId);
+
+            if (serverId === this.activeServerId) {
+              serverItem.classList.add("active");
+            }
+
+            const modeIcon =
+              serverInfo.mode === "dev"
+                ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+                : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>';
+            const modeText =
+              serverInfo.mode === "dev" ? "Development" : "Production";
+            const folderText = serverInfo.folder
+              ? ` (${serverInfo.folder})`
+              : "";
+            const uptime = this.getUptime(serverInfo.startTime);
+
+            serverItem.innerHTML = `
+              <div class="ht_server-info">
+                <div class="ht_server-title">
+                  ${modeIcon} ${modeText} Server${folderText}
+                  ${
+                    serverId === this.activeServerId
+                      ? '<span class="ht_server-badge">Active</span>'
+                      : ""
+                  }
+                  <div class="ht_server-status">
+                    <div class="ht_status-dot"></div>
+                    Running
+                  </div>
+                </div>
+                <div class="ht_server-details">
+                  <span class="ht_server-port">Port: ${serverInfo.port}</span>
+                  <span class="ht_server-uptime">Uptime: ${uptime}</span>
+                  ${
+                    serverInfo.folder
+                      ? `<span class="ht_server-folder">Folder: ${serverInfo.folder}</span>`
+                      : ""
+                  }
+                  <span class="ht_server-url">http://localhost:${
+                    serverInfo.port
+                  }</span>
+                </div>
+              </div>
+              <div class="ht_server-actions">
+                <button class="ht_server-btn open" onclick="window.htflowPanel.openServerUrl('${serverId}')" title="Open in browser">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15,3 21,3 21,9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  Open
+                </button>
+                <button class="ht_server-btn stop" onclick="window.htflowPanel.stopServer('${serverId}')" title="Stop server">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="6" width="12" height="12" rx="2"/>
+                  </svg>
+                  Stop
+                </button>
+              </div>
+            `;
+
+            return serverItem;
+          }
+
+          getUptime(startTime) {
+            const now = new Date();
+            const diff = now - startTime;
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            if (minutes > 0) {
+              return `${minutes}m ${seconds}s`;
+            }
+            return `${seconds}s`;
+          }
+
+          openServerUrl(serverId) {
+            const serverInfo = this.runningServers.get(serverId);
+            if (serverInfo) {
+              const url = `http://localhost:${serverInfo.port}`;
+              if (vscode) {
+                vscode.postMessage({
+                  command: "openUrl",
+                  url: url,
+                });
+              }
+              this.showNotification(`Opening ${url}`, "info");
+            }
+          }
+
+          stopServer(serverId) {
+            const serverInfo = this.runningServers.get(serverId);
+            if (serverInfo) {
+              if (vscode) {
+                vscode.postMessage({
+                  command: "stopServer",
+                  serverId: serverId,
+                  port: serverInfo.port,
+                });
+              }
+              this.showNotification(
+                `Stopping server on port ${serverInfo.port}...`,
+                "info"
+              );
+              this.removeRunningServer(serverId);
+            }
+          }
+
+          handleCustomPortServer() {
+            const portInput = document.getElementById("customPortInput");
+            const port = portInput ? portInput.value || 3000 : 3000;
+            if (vscode) {
+              vscode.postMessage({
+                command: "htflow.serve.custom",
+                port: parseInt(port),
+              });
+            }
+            this.showNotification(`Starting server on port ${port}...`, "info");
+            console.log("HTFlow Custom Server:", port);
+          }
+
+          showNotification(message, type = "info") {
+            // Create a simple notification system
+            const notification = document.createElement("div");
+            notification.style.cssText = `
+              position: fixed;
+              top: 16px;
+              right: 16px;
+              background: var(--bg-elevated);
+              border: 1px solid var(--border-primary);
+              border-radius: var(--radius-md);
+              padding: 12px 16px;
+              color: var(--text-primary);
+              font-size: 12px;
+              z-index: 1000;
+              opacity: 0;
+              transform: translateY(-10px);
+              transition: all 0.3s ease;
+              max-width: 300px;
+              box-shadow: var(--shadow-md);
+            `;
+
+            if (type === "success") {
+              notification.style.borderColor = "var(--success)";
+              notification.style.background = "rgba(34, 197, 94, 0.1)";
+            } else if (type === "error") {
+              notification.style.borderColor = "var(--error)";
+              notification.style.background = "rgba(239, 68, 68, 0.1)";
+            } else if (type === "warning") {
+              notification.style.borderColor = "var(--warning)";
+              notification.style.background = "rgba(245, 158, 11, 0.1)";
+            }
+
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Animate in
+            requestAnimationFrame(() => {
+              notification.style.opacity = "1";
+              notification.style.transform = "translateY(0)";
+            });
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+              notification.style.opacity = "0";
+              notification.style.transform = "translateY(-10px)";
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.parentNode.removeChild(notification);
+                }
+              }, 300);
+            }, 3000);
+          }
+
+          // Audit Results Methods
+          displayAuditResults(auditData) {
+            console.log("HTFlow: Displaying audit results:", auditData);
+
+            // Switch to the validation tab to show audit results
+            this.switchToCommandTab("htflow.audit");
+
+            const container = document.getElementById("auditResultsContainer");
+            const content = document.getElementById("auditResultsContent");
+
+            if (!container || !content) {
+              console.error("HTFlow: Audit results container not found");
+              return;
+            }
+
+            // Parse the audit results
+            const parsedResults = this.parseAuditOutput(auditData);
+
+            // Store current audit results for sendToCursorChat function
+            this.currentAuditResults = parsedResults;
+
+            // Generate HTML for the results
+            const resultsHTML = this.generateAuditResultsHTML(parsedResults);
+
+            // Update content
+            content.innerHTML = resultsHTML;
+
+            // Show container
+            container.style.display = "block";
+
+            // Scroll to results
+            container.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            this.showNotification(
+              "Audit results displayed in panel",
+              "success"
+            );
+          }
+
+          parseAuditOutput(output) {
+            // Parse the audit output text into structured data
+            const lines = output.split("\n");
+            const results = {
+              summary: {
+                files: 0,
+                errors: 0,
+                warnings: 0,
+                info: 0,
+                total: 0,
+              },
+              issues: [],
+            };
+
+            let currentIssue = null;
+            let inIssueSection = false;
+
+            for (const line of lines) {
+              // Parse summary
+              if (line.includes("Files Analyzed:")) {
+                results.summary.files = parseInt(line.match(/\d+/)?.[0] || 0);
+              } else if (line.includes("Errors:")) {
+                results.summary.errors = parseInt(line.match(/\d+/)?.[0] || 0);
+              } else if (line.includes("Warnings:")) {
+                results.summary.warnings = parseInt(
+                  line.match(/\d+/)?.[0] || 0
+                );
+              } else if (line.includes("Info:")) {
+                results.summary.info = parseInt(line.match(/\d+/)?.[0] || 0);
+              } else if (line.includes("Total Issues:")) {
+                results.summary.total = parseInt(line.match(/\d+/)?.[0] || 0);
+              }
+
+              // Parse issues
+              if (line.includes("Issues Found - Copy & Paste Tips")) {
+                inIssueSection = true;
+                continue;
+              }
+
+              if (inIssueSection && line.match(/^\d+\./)) {
+                // Save previous issue
+                if (currentIssue) {
+                  results.issues.push(currentIssue);
+                }
+
+                // Start new issue
+                const match = line.match(
+                  /^(\d+)\.\s*(error|warning|info)\s*(.+)/
+                );
+                if (match) {
+                  currentIssue = {
+                    number: parseInt(match[1]),
+                    type: match[2],
+                    title: match[3],
+                    description: "",
+                    code: "",
+                    fix: "",
+                    prompt: "",
+                  };
+                }
+              } else if (currentIssue && line.trim()) {
+                if (line.includes("Line:") || line.includes("Code:")) {
+                  currentIssue.code += line.trim() + "\n";
+                } else if (line.includes("💡 Fix:")) {
+                  currentIssue.fix = line.replace("💡 Fix:", "").trim();
+                } else if (line.includes("Copy this prompt to Cursor:")) {
+                  // Next lines will be the prompt
+                  currentIssue.prompt = "";
+                } else if (line.includes("──────────")) {
+                  // Prompt content
+                } else if (
+                  currentIssue.prompt !== undefined &&
+                  line.trim() &&
+                  !line.includes("──────────")
+                ) {
+                  currentIssue.prompt += line.trim() + "\n";
+                } else if (!line.includes("💡") && !line.includes("📋")) {
+                  currentIssue.description += line.trim() + " ";
+                }
+              }
+            }
+
+            // Add last issue
+            if (currentIssue) {
+              results.issues.push(currentIssue);
+            }
+
+            return results;
+          }
+
+          generateAuditResultsHTML(results) {
+            const { summary, issues } = results;
+
+            // Terminal-style header
+            let html = `
+              <div class="ht_audit-header">
+                <div class="ht_audit-title">🔍 HTFlow Audit</div>
+                <div class="ht_audit-directory">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 8px;">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  Scanning directory: /Users/mithualamin/Desktop/Desktop/cursor-ex
+                </div>
+              </div>
+
+              <div class="ht_audit-summary">
+                <div class="ht_summary-title">📊 HTFlow Audit Results</div>
+                <div class="ht_summary-separator">==================================================</div>
+                <div class="ht_summary-stats">
+                  <span class="ht_stat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Files Analyzed: ${summary.files}
+                  </span>
+                  <span class="ht_stat error">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="15" y1="9" x2="9" y2="15"/>
+                      <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                    Errors: ${summary.errors}
+                  </span>
+                  <span class="ht_stat warning">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                      <line x1="12" y1="9" x2="12" y2="13"/>
+                      <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    Warnings: ${summary.warnings}
+                  </span>
+                  <span class="ht_stat info">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="m9,12 3,3 3,-3"/>
+                    </svg>
+                    Info: ${summary.info}
+                  </span>
+                  <span class="ht_stat total">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14,2 14,8 20,8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10,9 9,9 8,9"/>
+                    </svg>
+                    Total Issues: ${summary.total}
+                  </span>
+                </div>
+              </div>
+            `;
+
+            if (issues.length > 0) {
+              html += `
+                <div class="ht_issues-section">
+                  <div class="ht_issues-title">🚨 Issues Found - Copy & Paste Tips for Cursor:</div>
+                  <div class="ht_issues-separator">============================================================</div>
+                  <div class="ht_issues-list">
+              `;
+
+              issues.forEach((issue, index) => {
+                const icon =
+                  issue.type === "error"
+                    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+                    : issue.type === "warning"
+                    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+                    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9,12 3,3 3,-3"/></svg>';
+
+                html += `
+                  <div class="ht_issue-item">
+                    <div class="ht_issue-header">
+                      <span class="ht_issue-number">${index + 1}.</span>
+                      <span class="ht_issue-icon">${icon}</span>
+                      <span class="ht_issue-title">${this.escapeHtml(
+                        issue.title
+                      )}</span>
+                    </div>
+                    
+                    ${
+                      issue.description
+                        ? `
+                      <div class="ht_issue-description">${this.escapeHtml(
+                        issue.description
+                      )}</div>
+                    `
+                        : ""
+                    }
+                    
+                    ${
+                      issue.code
+                        ? `
+                      <div class="ht_issue-code">
+                        <span class="ht_code-label">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                          </svg>
+                          File: index.html
+                        </span>
+                        <div class="ht_code-content">
+                          <span class="ht_code-line">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 4px;">
+                              <path d="M3 3h18v18H3zM21 9H3"/>
+                            </svg>
+                            Line: ${this.extractLineNumber(issue.code)}
+                          </span>
+                          <div class="ht_code-text">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 4px;">
+                              <polyline points="16,18 22,12 16,6"/>
+                              <polyline points="8,6 2,12 8,18"/>
+                            </svg>
+                            Code: ${this.escapeHtml(
+                              this.extractCode(issue.code)
+                            )}</div>
+                        </div>
+                      </div>
+                    `
+                        : ""
+                    }
+                    
+                    ${
+                      issue.fix
+                        ? `
+                      <div class="ht_issue-fix">💡 Fix: ${this.escapeHtml(
+                        issue.fix
+                      )}</div>
+                    `
+                        : ""
+                    }
+                    
+                    <div class="ht_issue-actions">
+                      <button class="ht_send-to-cursor-btn" onclick="window.htflowPanel.sendToCursorChat(${index})">
+                        📋 Send to Cursor Chat
+                      </button>
+                    </div>
+                  </div>
+                `;
+              });
+
+              html += `
+                  </div>
+                </div>
+              `;
+            }
+
+            return html;
+          }
+
+          extractLineNumber(code) {
+            const match = code.match(/Line:\s*(\d+)/);
+            return match ? match[1] : "";
+          }
+
+          extractCode(code) {
+            const match = code.match(/Code:\s*(.+)/);
+            return match ? match[1] : code;
+          }
+
+          sendToCursorChat(issueIndex) {
+            const issue = this.currentAuditResults?.issues[issueIndex];
+            if (!issue) return;
+
+            // Format the issue for Cursor chat
+            const cursorPrompt = this.formatIssueForCursor(issue);
+
+            // Copy to clipboard
+            navigator.clipboard
+              .writeText(cursorPrompt)
+              .then(() => {
+                this.showNotification(
+                  "Issue copied to clipboard! Paste in Cursor chat.",
+                  "success"
+                );
+              })
+              .catch((err) => {
+                console.error("Failed to copy to clipboard:", err);
+                this.showNotification("Failed to copy to clipboard", "error");
+              });
+          }
+
+          formatIssueForCursor(issue) {
+            const icon =
+              issue.type === "error"
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+                : issue.type === "warning"
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+                : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9,12 3,3 3,-3"/></svg>';
+
+            let prompt = `${icon} ${issue.title}\n\n`;
+
+            if (issue.description) {
+              prompt += `${issue.description}\n\n`;
+            }
+
+            if (issue.code) {
+              const lineNumber = this.extractLineNumber(issue.code);
+              const codeText = this.extractCode(issue.code);
+              prompt += `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                File: index.html
+              `;
+              if (lineNumber)
+                prompt += `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                  <path d="M3 3h18v18H3zM21 9H3"/>
+                </svg>
+                Line: ${lineNumber}
+              `;
+              prompt += `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                  <polyline points="16,18 22,12 16,6"/>
+                  <polyline points="8,6 2,12 8,18"/>
+                </svg>
+                Code: ${codeText}
+              `;
+            }
+
+            if (issue.fix) {
+              prompt += `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; margin-right: 6px;">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Fix: ${issue.fix}
+              `;
+            }
+
+            prompt += `Please help me fix this HTFlow compliance issue.`;
+
+            return prompt;
+          }
+
+          escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+          }
+
+          closeAuditResults() {
+            const container = document.getElementById("auditResultsContainer");
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          // Command Results Methods
+          getCommandContainer(command) {
+            // Map commands to their appropriate containers
+            const commandMap = {
+              // Package Management Commands
+              "npm.install": {
+                containerId: "packageCommandResultsContainer",
+                contentId: "packageCommandResultsContent",
+                titleId: "packageCommandResultsTitle",
+                tabId: "cli",
+                submenu: "package",
+              },
+              "npm.update": {
+                containerId: "packageCommandResultsContainer",
+                contentId: "packageCommandResultsContent",
+                titleId: "packageCommandResultsTitle",
+                tabId: "cli",
+                submenu: "package",
+              },
+              "npm.uninstall": {
+                containerId: "packageCommandResultsContainer",
+                contentId: "packageCommandResultsContent",
+                titleId: "packageCommandResultsTitle",
+                tabId: "cli",
+                submenu: "package",
+              },
+              "htflow.version": {
+                containerId: "packageCommandResultsContainer",
+                contentId: "packageCommandResultsContent",
+                titleId: "packageCommandResultsTitle",
+                tabId: "cli",
+                submenu: "package",
+              },
+              // Project Commands
+              "htflow.init": {
+                containerId: "projectCommandResultsContainer",
+                contentId: "projectCommandResultsContent",
+                titleId: "projectCommandResultsTitle",
+                tabId: "cli",
+                submenu: "project",
+              },
+              // Validation Commands
+              "htflow.audit": {
+                containerId: "auditResultsContainer",
+                contentId: "auditResultsContent",
+                titleId: "auditResultsTitle",
+                tabId: "cli",
+                submenu: "validation",
+              },
+              "htflow.audit.html": {
+                containerId: "auditResultsContainer",
+                contentId: "auditResultsContent",
+                titleId: "auditResultsTitle",
+                tabId: "cli",
+                submenu: "validation",
+              },
+              "htflow.validate": {
+                containerId: "auditResultsContainer",
+                contentId: "auditResultsContent",
+                titleId: "auditResultsTitle",
+                tabId: "cli",
+                submenu: "validation",
+              },
+              // Build Commands
+              "htflow.build": {
+                containerId: "buildCommandResultsContainer",
+                contentId: "buildCommandResultsContent",
+                titleId: "buildCommandResultsTitle",
+                tabId: "cli",
+                submenu: "build",
+              },
+              // MCP Commands
+              "htflow.mcp-install": {
+                containerId: "mcpCommandResultsContainer",
+                contentId: "mcpCommandResultsContent",
+                titleId: "mcpCommandResultsTitle",
+                tabId: "cli",
+                submenu: "mcp",
+              },
+              "htflow.mcp-uninstall": {
+                containerId: "mcpCommandResultsContainer",
+                contentId: "mcpCommandResultsContent",
+                titleId: "mcpCommandResultsTitle",
+                tabId: "cli",
+                submenu: "mcp",
+              },
+              "htflow.mcp-status": {
+                containerId: "mcpCommandResultsContainer",
+                contentId: "mcpCommandResultsContent",
+                titleId: "mcpCommandResultsTitle",
+                tabId: "cli",
+                submenu: "mcp",
+              },
+            };
+
+            // Return the mapping or default to validation for unknown commands
+            return (
+              commandMap[command] || {
+                containerId: "auditResultsContainer",
+                contentId: "auditResultsContent",
+                titleId: "auditResultsTitle",
+                tabId: "cli",
+                submenu: "validation",
+              }
+            );
+          }
+
+          switchToCommandTab(command) {
+            const containerInfo = this.getCommandContainer(command);
+
+            // Switch to the main tab
+            this.switchTab(containerInfo.tabId);
+
+            // If it's a CLI command, also switch to the appropriate submenu
+            if (containerInfo.tabId === "cli" && containerInfo.submenu) {
+              this.switchSubMenu(containerInfo.submenu);
+            }
+          }
+
+          displayCommandResults(commandData) {
+            console.log("HTFlow: Displaying command results:", commandData);
+            console.log(
+              "HTFlow: Command output length:",
+              commandData.output ? commandData.output.length : 0
+            );
+
+            // Determine which container to use based on command
+            const containerInfo = this.getCommandContainer(commandData.command);
+
+            const container = document.getElementById(
+              containerInfo.containerId
+            );
+            const content = document.getElementById(containerInfo.contentId);
+            const title = document.getElementById(containerInfo.titleId);
+
+            if (!container || !content || !title) {
+              console.error(
+                `HTFlow: Command results container not found for ${commandData.command}:`,
+                containerInfo
+              );
+              return;
+            }
+
+            // Switch to the appropriate tab
+            this.switchToCommandTab(commandData.command);
+
+            // Update title with command info
+            const commandIcon = commandData.success
+              ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>'
+              : commandData.error
+              ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+              : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+            title.textContent = `${commandIcon} ${
+              commandData.command || "Command Output"
+            }`;
+
+            // Generate HTML for the results
+            const resultsHTML = this.generateCommandResultsHTML(commandData);
+
+            // Update content
+            content.innerHTML = resultsHTML;
+
+            // Show container
+            container.style.display = "block";
+
+            // Scroll to results
+            container.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            const statusMessage = commandData.success
+              ? "Command executed successfully"
+              : commandData.error
+              ? "Command failed"
+              : "Command output displayed";
+
+            this.showNotification(
+              statusMessage,
+              commandData.success
+                ? "success"
+                : commandData.error
+                ? "error"
+                : "info"
+            );
+          }
+
+          generateCommandResultsHTML(commandData) {
+            const { command, output, error, success, exitCode, duration } =
+              commandData;
+
+            let html = `
+              <div class="ht_command-meta">
+                Command: ${this.escapeHtml(command || "Unknown")}
+                ${exitCode !== undefined ? ` | Exit Code: ${exitCode}` : ""}
+                ${duration ? ` | Duration: ${duration}ms` : ""}
+              </div>
+            `;
+
+            // Status indicator
+            if (success !== undefined) {
+              const statusClass = success ? "success" : "error";
+              const statusIcon = success
+                ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>'
+                : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+              const statusText = success
+                ? "Command completed successfully"
+                : "Command failed";
+
+              html += `
+                <div class="ht_command-status ${statusClass}">
+                  <span>${statusIcon}</span>
+                  <span>${statusText}</span>
+                </div>
+              `;
+            }
+
+            // Output content
+            const displayOutput = output || error || "No output";
+            html += `
+              <div class="ht_command-output-section">
+                <div class="ht_command-output-label">Terminal Output:</div>
+                <div class="ht_command-output">${this.escapeHtml(
+                  displayOutput
+                )}</div>
+              </div>
+            `;
+
+            return html;
+          }
+
+          closeCommandResults() {
+            const container = document.getElementById(
+              "commandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          closePackageCommandResults() {
+            const container = document.getElementById(
+              "packageCommandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          closeProjectCommandResults() {
+            const container = document.getElementById(
+              "projectCommandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          closeBuildCommandResults() {
+            const container = document.getElementById(
+              "buildCommandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          closeBrowserCommandResults() {
+            const container = document.getElementById(
+              "browserCommandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          closeMcpCommandResults() {
+            const container = document.getElementById(
+              "mcpCommandResultsContainer"
+            );
+            if (container) {
+              this.hideElement(container);
+            }
+          }
+
+          showCommandResults(message) {
+            const container = document.getElementById(
+              "commandResultsContainer"
+            );
+            const title = document.getElementById("commandResultsTitle");
+            const content = document.getElementById("commandResultsContent");
+
+            if (container && title && content) {
+              title.textContent = "Command Results";
+              content.innerHTML = `<div class="ht_command-info">${this.escapeHtml(
+                message
+              )}</div>`;
+              this.showElement(container);
+              container.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+
+          showMcpCommandResults(message) {
+            const container = document.getElementById(
+              "mcpCommandResultsContainer"
+            );
+            const title = document.getElementById("mcpCommandResultsTitle");
+            const content = document.getElementById("mcpCommandResultsContent");
+
+            if (container && title && content) {
+              title.textContent = "MCP Command Results";
+              content.innerHTML = `<div class="ht_command-info">${this.escapeHtml(
+                message
+              )}</div>`;
+              this.showElement(container);
+              container.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+
+          // Helper functions for showing/hiding elements
+          showElement(element) {
+            if (element) {
+              element.classList.remove("ht_hidden");
+            }
+          }
+
+          hideElement(element) {
+            if (element) {
+              element.classList.add("ht_hidden");
+            }
+          }
+
+          initializeUI() {
+            this.switchTab("cli");
+          }
+        }
+
+        // Listen for messages from VS Code
+        if (vscode) {
+          window.addEventListener("message", (event) => {
+            const message = event.data;
+            console.log("HTFlow: Received message from VS Code:", message);
+
+            if (window.htflowPanel && message.command) {
+              switch (message.command) {
+                case "serverStarted":
+                  console.log(
+                    "HTFlow UI: Received serverStarted message:",
+                    message
+                  );
+                  window.htflowPanel.addRunningServer(message.serverId, {
+                    ...message.serverInfo,
+                    startTime: new Date(message.serverInfo.startTime),
+                  });
+                  break;
+                case "serverStopped":
+                  window.htflowPanel.removeRunningServer(message.serverId);
+                  break;
+                case "auditResults":
+                  if (message.output) {
+                    window.htflowPanel.displayAuditResults(message.output);
+                  }
+                  break;
+                case "commandResults":
+                  console.log(
+                    "HTFlow: Received commandResults message:",
+                    message
+                  );
+                  if (message.data) {
+                    window.htflowPanel.displayCommandResults(message.data);
+                  } else {
+                    console.error(
+                      "HTFlow: commandResults message missing data:",
+                      message
+                    );
+                  }
+                  break;
+              }
+            }
+          });
+        }
+
+        function initializePanel() {
+          console.log("HTFlow: Initializing panel...");
+          console.log("HTFlow: Document ready state:", document.readyState);
+          console.log(
+            "HTFlow: DOM elements count:",
+            document.querySelectorAll("*").length
+          );
+
+          try {
+            window.htflowPanel = new HTFlowPanel();
+            console.log("HTFlow: Panel created successfully");
+
+            if (vscode) {
+              console.log("HTFlow: Sending ready message to VS Code");
+              vscode.postMessage({ command: "ready" });
+            } else {
+              console.log("HTFlow: VS Code API not available");
+            }
+          } catch (error) {
+            console.error("HTFlow: Error initializing panel:", error);
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initializePanel);
+        } else {
+          initializePanel();
+        }
+
+        console.log("HTFlow: Panel JavaScript loaded successfully");
+      })();
+
+      // HTFlow Converter Functionality
+      class HTFlowConverter {
+        constructor() {
+          this.initializeConverter();
+        }
+
+        initializeConverter() {
+          // Get converter elements
+          this.htmlInput = document.getElementById("htmlInput");
+          this.outputCode = document.getElementById("outputCode");
+          this.convertBtn = document.getElementById("convertBtn");
+          this.clearBtn = document.getElementById("clearBtn");
+          this.copyBtn = document.getElementById("copyBtn");
+          this.openHtflowBtn = document.getElementById("openHtflowBtn");
+
+          // Add event listeners
+          if (this.convertBtn) {
+            this.convertBtn.addEventListener("click", () =>
+              this.convertToWebflow()
+            );
+          }
+
+          if (this.clearBtn) {
+            this.clearBtn.addEventListener("click", () => this.clearInputs());
+          }
+
+          if (this.copyBtn) {
+            this.copyBtn.addEventListener("click", () => this.copyOutput());
+          }
+
+          if (this.openHtflowBtn) {
+            this.openHtflowBtn.addEventListener("click", () =>
+              this.openHTFlowWebsite()
+            );
+          }
+        }
+
+        convertToWebflow() {
+          const htmlInput = this.htmlInput?.value?.trim();
+
+          if (!htmlInput) {
+            this.outputCode.textContent =
+              "Please enter some HTML code to convert.";
+            return;
+          }
+
+          try {
+            // Apply HTFlow conversion rules
+            const convertedHTML = this.applyHTFlowRules(htmlInput);
+            this.outputCode.textContent = convertedHTML;
+
+            // Show success notification
+            this.showNotification(
+              "HTML converted to Webflow-compatible format!",
+              "success"
+            );
+          } catch (error) {
+            this.outputCode.textContent = `Error converting HTML: ${error.message}`;
+            this.showNotification(
+              "Error during conversion. Please check your HTML syntax.",
+              "error"
+            );
+          }
+        }
+
+        applyHTFlowRules(html) {
+          let converted = html;
+
+          // 1. Wrap content in htflow-wrapper
+          if (!converted.includes("htflow-wrapper")) {
+            // Find body content
+            const bodyMatch = converted.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+            if (bodyMatch) {
+              const bodyContent = bodyMatch[1];
+              converted = converted.replace(
+                bodyMatch[0],
+                `<body>
+    <div class="htflow-wrapper">
+${bodyContent}
+    </div>
+  </body>`
+              );
+            }
+          }
+
+          // 2. Add unique classes to elements that don't have them
+          converted = this.addUniqueClasses(converted);
+
+          // 3. Replace inline styles with CSS classes
+          converted = this.replaceInlineStyles(converted);
+
+          // 4. Add semantic structure improvements
+          converted = this.improveSemanticStructure(converted);
+
+          // 5. Add accessibility improvements
+          converted = this.addAccessibilityAttributes(converted);
+
+          // 6. Format the output nicely
+          converted = this.formatHTML(converted);
+
+          return converted;
+        }
+
+        addUniqueClasses(html) {
+          let converted = html;
+          let classCounter = 1;
+
+          // Add classes to common elements that don't have them
+          const elementsToClass = [
+            "div",
+            "span",
+            "p",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "section",
+            "article",
+            "header",
+            "footer",
+            "nav",
+            "main",
+          ];
+
+          elementsToClass.forEach((element) => {
+            const regex = new RegExp(
+              `<${element}(?!\\s+[^>]*class=)([^>]*)>`,
+              "gi"
+            );
+            converted = converted.replace(regex, (match, attributes) => {
+              const className = `${element}_${classCounter++}`;
+              return `<${element} class="${className}"${attributes}>`;
+            });
+          });
+
+          return converted;
+        }
+
+        replaceInlineStyles(html) {
+          let converted = html;
+          let cssRules = [];
+          let styleCounter = 1;
+
+          // Find elements with style attributes
+          const styleRegex = /(<[^>]+)\s+style=["']([^"']+)["']([^>]*>)/gi;
+
+          converted = converted.replace(
+            styleRegex,
+            (match, openTag, styleContent, closeTag) => {
+              const className = `styled_element_${styleCounter++}`;
+              cssRules.push(`.${className} { ${styleContent} }`);
+
+              // Add or update class attribute
+              if (openTag.includes("class=")) {
+                return (
+                  openTag.replace(
+                    /class=["']([^"']*)["']/,
+                    `class="$1 ${className}"`
+                  ) + closeTag
+                );
+              } else {
+                return openTag + ` class="${className}"` + closeTag;
+              }
+            }
+          );
+
+          // Add CSS rules to the document if any were found
+          if (cssRules.length > 0) {
+            const cssBlock = `
+<style data-ht-styles>
+${cssRules.join("\n")}
+</style>`;
+
+            // Insert CSS in head or at the beginning
+            if (converted.includes("</head>")) {
+              converted = converted.replace("</head>", cssBlock + "\n</head>");
+            } else {
+              converted = cssBlock + "\n" + converted;
+            }
+          }
+
+          return converted;
+        }
+
+        improveSemanticStructure(html) {
+          let converted = html;
+
+          // Suggest semantic improvements in comments
+          if (!converted.includes("<header")) {
+            converted =
+              '<!-- Consider adding <header class="site_header"> for your page header -->\n' +
+              converted;
+          }
+
+          if (!converted.includes("<main")) {
+            converted = converted.replace(
+              /<body([^>]*)>/,
+              '<body$1>\n<!-- Consider wrapping main content in <main class="main_content"> -->'
+            );
+          }
+
+          if (!converted.includes("<footer")) {
+            converted +=
+              '\n<!-- Consider adding <footer class="site_footer"> for your page footer -->';
+          }
+
+          return converted;
+        }
+
+        addAccessibilityAttributes(html) {
+          let converted = html;
+
+          // Add alt attributes to images without them
+          converted = converted.replace(
+            /<img(?![^>]*alt=)([^>]*?)>/gi,
+            '<img$1 alt="Image description needed">'
+          );
+
+          // Add labels for form inputs
+          converted = converted.replace(
+            /<input(?![^>]*id=)([^>]*?)>/gi,
+            '<input id="input_field"$1>'
+          );
+
+          return converted;
+        }
+
+        formatHTML(html) {
+          // Basic HTML formatting - add proper indentation
+          let formatted = html;
+          let indent = 0;
+          const indentSize = 2;
+
+          // This is a simplified formatter - in a real app you'd use a proper HTML formatter
+          formatted = formatted.replace(/></g, ">\\n<");
+
+          return formatted;
+        }
+
+        clearInputs() {
+          if (this.htmlInput) this.htmlInput.value = "";
+          if (this.outputCode)
+            this.outputCode.textContent = "Converted HTML will appear here...";
+          this.showNotification("Input and output cleared.", "info");
+        }
+
+        async copyOutput() {
+          const outputText = this.outputCode?.textContent;
+
+          if (
+            !outputText ||
+            outputText === "Converted HTML will appear here..."
+          ) {
+            this.showNotification(
+              "No output to copy. Please convert some HTML first.",
+              "warning"
+            );
+            return;
+          }
+
+          try {
+            await navigator.clipboard.writeText(outputText);
+            this.showNotification("Output copied to clipboard!", "success");
+          } catch (error) {
+            // Fallback for older browsers
+            this.fallbackCopyText(outputText);
+            this.showNotification("Output copied to clipboard!", "success");
+          }
+        }
+
+        fallbackCopyText(text) {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          document.execCommand("copy");
+          textArea.remove();
+        }
+
+        openHTFlowWebsite() {
+          // Send message to VS Code to open external URL
+          if (window.vscode) {
+            window.vscode.postMessage({
+              command: "openExternal",
+              url: "https://htflow.com/html-to-webflow",
+            });
+          } else {
+            // Fallback for testing
+            window.open("https://htflow.com/html-to-webflow", "_blank");
+          }
+          this.showNotification("Opening HTFlow website...", "info");
+        }
+
+        showNotification(message, type = "info") {
+          // Use existing notification system if available
+          if (window.htflowPanel && window.htflowPanel.showNotification) {
+            window.htflowPanel.showNotification(message, type);
+          } else {
+            console.log(`[HTFlow Converter] ${type.toUpperCase()}: ${message}`);
+          }
+        }
+      }
+
+      // Initialize converter when DOM is ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          window.htflowConverter = new HTFlowConverter();
+        });
+      } else {
+        window.htflowConverter = new HTFlowConverter();
+      }
+    </script>
+  </body>
+</html>

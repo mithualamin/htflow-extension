@@ -1,0 +1,32 @@
+{
+  "version": "1.9.2",
+  "type": "htflow-project",
+  "rules": {
+    "enabled": true,
+    "strictMode": true,
+    "webflowCompatible": true
+  },
+  "framework": "none",
+  "cssFramework": "none",
+  "responsive": {
+    "breakpoints": {
+      "tablet": "991px",
+      "mobileLandscape": "767px",
+      "mobilePortrait": "479px"
+    }
+  },
+  "validation": {
+    "htmlWrapper": "htflow-wrapper",
+    "dataAttributes": "data-ht-*",
+    "cssProperties": "longhand-only",
+    "jsSelectors": "data-attributes-only"
+  },
+  "ai": {
+    "instructions": "Follow HTFlow rules for Webflow-compatible code generation",
+    "rulesFiles": [
+      ".cursor/rules/htflow-html-rules.md",
+      ".cursor/rules/htflow-css-rules.md",
+      ".cursor/rules/htflow-js-rules.md"
+    ]
+  }
+}

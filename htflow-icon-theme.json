@@ -1,0 +1,59 @@
+{
+  "name": "HTFlow Icons",
+  "displayName": "HTFlow File Icons",
+  "description": "Custom file icons for HTFlow development",
+  "iconDefinitions": {
+    "htflow-icon": {
+      "iconPath": "media/htflow-icon.svg"
+    },
+    "htflow-html": {
+      "iconPath": "media/htflow-icon.svg"
+    },
+    "htflow-config": {
+      "iconPath": "media/htflow-icon.svg"
+    }
+  },
+  "fileExtensions": {
+    "htflow": "htflow-icon",
+    "htf": "htflow-icon"
+  },
+  "fileNames": {
+    "htflow.config.js": "htflow-config",
+    "htflow.config.json": "htflow-config",
+    "htflow-panel.html": "htflow-html",
+    "htflow-browser-panel.html": "htflow-html",
+    ".htflowrc": "htflow-config",
+    "htflow.json": "htflow-config",
+    "htflow.config.ts": "htflow-config",
+    "htflow.config.mjs": "htflow-config"
+  },
+  "languageIds": {
+    "htflow": "htflow-icon"
+  },
+  "light": {
+    "iconDefinitions": {
+      "htflow-icon": {
+        "iconPath": "media/htflow-icon.svg"
+      },
+      "htflow-html": {
+        "iconPath": "media/htflow-icon.svg"
+      },
+      "htflow-config": {
+        "iconPath": "media/htflow-icon.svg"
+      }
+    }
+  },
+  "highContrast": {
+    "iconDefinitions": {
+      "htflow-icon": {
+        "iconPath": "media/htflow-icon.svg"
+      },
+      "htflow-html": {
+        "iconPath": "media/htflow-icon.svg"
+      },
+      "htflow-config": {
+        "iconPath": "media/htflow-icon.svg"
+      }
+    }
+  }
+}

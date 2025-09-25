@@ -1,0 +1,280 @@
+{
+  "name": "htflow",
+  "displayName": "Htflow Html to Webflow",
+  "publisher": "htflow",
+  "description": "Visual interface for HTFlow CLI commands - manage HTFlow projects with buttons instead of terminal commands. Supports all HTFlow CLI operations including init, validate, audit, build, dev, and MCP integration.",
+  "version": "1.0.2",
+  "license": "MIT",
+  "icon": "media/htflow-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mithualmain/htflow-extension.git"
+  },
+  "homepage": "https://htflow.com",
+  "bugs": {
+    "url": "https://github.com/mithualamin/htflow-extension/issues"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other",
+    "Debuggers",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "htflow",
+    "webflow",
+    "html",
+    "css",
+    "javascript",
+    "cli",
+    "validation",
+    "audit",
+    "build",
+    "development"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:htflow.sidebar",
+    "onCommand:htflow.togglePanel",
+    "onCommand:htflow.openSidebar",
+    "onCommand:htflow.openRightPanel",
+    "onCommand:htflow.toggleMinimapDecorations"
+  ],
+  "main": "./out/extension.js",
+  "files": [
+    "out/**/*",
+    "media/**/*",
+    "htflow-panel.html",
+    "htflow-browser-panel.html",
+    "htflow-icon-theme.json",
+    "language-configuration.json",
+    "package.json",
+    "README.md"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "htflow-sidebar",
+          "title": "HTFlow",
+          "icon": "$(rocket)"
+        }
+      ]
+    },
+    "views": {
+      "htflow-sidebar": [
+        {
+          "type": "webview",
+          "id": "htflow.sidebar",
+          "name": "HTFlow",
+          "icon": "$(rocket)",
+          "contextualTitle": "HTFlow Panel"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "htflow.togglePanel",
+        "title": "HTFlow: Toggle Panel",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "htflow.openSidebar",
+        "title": "HTFlow: Open in Left Sidebar",
+        "icon": "$(layout-sidebar-left)"
+      },
+      {
+        "command": "htflow.openRightPanel",
+        "title": "HTFlow: Open in Right Panel",
+        "icon": "$(layout-sidebar-right)"
+      },
+      {
+        "command": "htflow.toggleMinimapDecorations",
+        "title": "HTFlow: Toggle Minimap Decorations",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "htflow.activateIconTheme",
+        "title": "HTFlow: Activate Icon Theme",
+        "icon": "$(symbol-color)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "htflow.openRightPanel",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "htflow.togglePanel",
+          "when": "true"
+        },
+        {
+          "command": "htflow.openSidebar",
+          "when": "true"
+        },
+        {
+          "command": "htflow.openRightPanel",
+          "when": "true"
+        },
+        {
+          "command": "htflow.toggleMinimapDecorations",
+          "when": "true"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "htflow.togglePanel",
+          "group": "navigation",
+          "when": "true"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "htflow",
+        "aliases": [
+          "HTFlow",
+          "htflow"
+        ],
+        "extensions": [
+          ".htflow",
+          ".htf"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "media/htflow-icon.svg",
+          "dark": "media/htflow-icon.svg"
+        }
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "htflow-icons",
+        "label": "HTFlow Icons",
+        "path": "./htflow-icon-theme.json"
+      }
+    ],
+    "configuration": {
+      "title": "HTFlow",
+      "properties": {
+        "htflow.minimapDecorations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show HTFlow rocket icons in the minimap for HTFlow-related code"
+        },
+        "htflow.panelPosition": {
+          "type": "string",
+          "default": "right",
+          "enum": [
+            "left",
+            "right",
+            "bottom"
+          ],
+          "description": "Position of the HTFlow panel"
+        },
+        "htflow.iconTheme": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable HTFlow icon theme for .htflow files"
+        }
+      }
+    }
+  },
+  "features": {
+    "htflow-cli-commands": {
+      "package-management": [
+        {
+          "command": "htflow install",
+          "description": "Install HTFlow CLI globally on your system using npm"
+        },
+        {
+          "command": "htflow update",
+          "description": "Update HTFlow CLI to the latest version"
+        },
+        {
+          "command": "htflow uninstall",
+          "description": "Remove HTFlow CLI from your system"
+        },
+        {
+          "command": "htflow version",
+          "description": "Display current HTFlow CLI version and build information"
+        }
+      ],
+      "project-management": [
+        {
+          "command": "htflow init",
+          "description": "Initialize a new HTFlow project with configuration files and directory structure"
+        }
+      ],
+      "development": [
+        {
+          "command": "htflow dev",
+          "description": "Start development server for live preview and hot reloading"
+        }
+      ],
+      "validation": [
+        {
+          "command": "htflow validate",
+          "description": "Validate HTML, CSS, and JavaScript code for HTFlow compliance"
+        },
+        {
+          "command": "htflow audit",
+          "description": "Run comprehensive project audit with detailed analysis and reports"
+        },
+        {
+          "command": "htflow audit html",
+          "description": "Audit HTML files specifically for Webflow compatibility"
+        }
+      ],
+      "build": [
+        {
+          "command": "htflow build",
+          "description": "Build production-ready code optimized for Webflow deployment"
+        }
+      ],
+      "mcp-integration": [
+        {
+          "command": "htflow mcp-install",
+          "description": "Install HTFlow MCP (Model Context Protocol) integration"
+        },
+        {
+          "command": "htflow mcp-uninstall",
+          "description": "Remove HTFlow MCP integration from your system"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "node ./scripts/vsce-package.js package",
+    "htflow:dev": "htflow dev",
+    "htflow:build": "htflow build",
+    "htflow:audit": "htflow audit"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.126",
+    "@types/vscode": "^1.99.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "adm-zip": "^0.5.16",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.3",
+    "undici": "^5.28.4",
+    "vsce": "^1.103.1"
+  },
+  "dependencies": {
+    "@vscode/vsce": "^2.32.0"
+  }
+}
